@@ -1,18 +1,45 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const userModel = require("../models/user-model");
+const adminModel = require("../models/owner-model");
 
-module.exports = async function(req,res,next){
-    if(!req.cookies.token){
-        req.flash("error", "you need to login first");
-        return res.redirect("/my-account");
+module.exports = async function (req, res, next) {
+  const token = req.cookies.token;
+
+  if (!token) {
+    req.flash("error", "You need to login first.");
+    return res.redirect("/my-account");
+  }
+
+  try {
+    let decoded = jwt.verify(token, process.env.JWT_KEY);
+
+    // Role ke basis par model select karo
+    const model = decoded.role === "admin" ? adminModel : userModel;
+
+    let user = await model
+      .findOne({ email: decoded.email })
+      .select("-password");
+
+    if (!user) {
+      res.clearCookie("token");
+      req.flash("error", "User not found. Please login again.");
+      return res.redirect("/my-account");
     }
-    try{
-        let decoded = jwt.verify(req.cookies.token,process.env.JWT_KEY);
-        let user = await userModel.findOne({email:decoded.email}).select("-password");
-        req.user = user;
-        next();
-    }catch(err){
-        req.flash("error","something went wrong 3");
-        res.redirect("/");
-    };
-}
+
+    req.user = user;
+    req.user.role = decoded.role;
+
+    next();
+  } catch (err) {
+    console.error("JWT Error:", err.message);
+    res.clearCookie("token");
+
+    if (err.name === "TokenExpiredError") {
+      req.flash("error", "Your session has expired. Please login again.");
+    } else {
+      req.flash("error", "Invalid token. Please login again.");
+    }
+
+    return res.redirect("/my-account");
+  }
+};

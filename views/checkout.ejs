@@ -1,0 +1,135 @@
+<%- include('./partials/header') %>
+
+    <% if(user.cart.length>0){%>
+        <div class="bg-gray-100 min-h-screen p-8 flex justify-between">
+            <div class="w-2/3 shadow-xl rounded-xl p-6 border">
+                <h1 class="text-2xl font-bold mb-5">Your Cart</h1>
+                <div class="pl-10 pt-20 pb-5 w-65vw] flex gap-10 border-b-2 box-border">
+                    <h1 class="w-[50%] text-center">PRODUCT</h1>
+                    <h1 class="w-[20%] text-center">PRICE</h1>
+                    <h1 class="w-[15%] text-center">QUANTITY</h1>
+                    <h1 class="w-[15%] text-center">SUBTOTAL</h1>
+                </div>
+
+                <%user.cart.forEach(function(item){ %>
+                    <div id="cartItems"
+                        class="w-full  bg-white  h-28 flex items-center pl-10 py-20 gap-10 border-b-2 box-border my-5 rounded-md">
+                        <div class="w-[50%] h-28  flex gap-2">
+                            <div class="w-[2vw] h-full flex justify-between items-center">
+                                <a href="/remove/<%=item._id%>"><svg class="w-[1vw] h-[1vw] "
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgba(240,17,17,1)">
+                                        <path
+                                            d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z">
+                                        </path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class=" h-full overflow-hidden  ">
+                                <% if (item.images && item.images.length> 0) { %>
+                                    <img src="data:image/jpeg;base64,<%= item.images[0].toString('base64') %>"
+                                        class="object-center object-contain h-full" />
+                                    <% } else { %>
+                                        <p>No images available for this product.</p>
+                                        <% } %>
+
+                            </div>
+                            <div class=" flex flex-col justify-start gap-1 ">
+                                <h1>
+                                    <%=item.name%>
+                                </h1>
+                                <p>color:<%=item.color%>
+                                </p>
+                                <p>size:<%=item.size%>
+                                </p>
+                                <p>metaltype:</p>
+                            </div>
+                        </div>
+                        <div class=" w-[20%] flex justify-start gap-1 md:gap-2">
+                            <p>
+                                &#8377;<%= Number(item.price - item.discount) %>
+                            </p>
+                            <p class="line-through opacity-50 text-[#B5B5B5]">&#8377; <%= item.price %>
+                            </p>
+                        </div>
+                        <div class=" w-[15%] flex items-center justify-between gap-2 px-5 py-3 ">
+                            <a href="/remove/<%=item._id%>">
+                                <div id="decrease"
+                                    class="w-[3vw]  rounded-full border border-black flex justify-center items-center hover:bg-black hover:text-white ">
+                                    <svg class="w-[20px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path d="M5 11V13H19V11H5Z"></path>
+                                    </svg>
+                                </div>
+                            </a>
+                            <div class=" text-center border px-3 py-1">1</div>
+                            <a href="/add-to-cart/<%=item._id%>">
+                                <div id="increase"
+                                    class="w-[3vw]  rounded-full border-[1px]  border-black flex justify-center items-center hover:bg-black hover:text-white  ">
+                                    <svg class="w-[20px] h-[20px]" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path>
+                                    </svg>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="w-[15%]">
+                            <h1 class="text-center">&#8377;<%= Number(item.price - item.discount) %>
+                            </h1>
+                        </div>
+                    </div>
+                    <%})%>
+
+            </div>
+            <div class="w-[30%] bg-white shadow-xl rounded-xl p-6 border h-[50%]">
+                <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
+                <p class="text-lg">Subtotal: ₹<%=discountedPrice%>
+                </p>
+                <p class="text-lg">Shipping: ₹<%=shippingCharge%>
+                </p>
+                <p class="text-xl font-bold">Total: ₹<%=discountedPrice + shippingCharge%>
+                </p>
+                <p class="text-green-600 font-semibold">You saved ₹<%=totalSaved%>
+                </p>
+                <form action="/createOrder/<%=user._id%>" method="POST">
+                    <!-- Hidden field for amount -->
+                    <input type="hidden" name="amount"
+                        value="<%= user.cart.reduce((total, item) => total + Number(item.price) - Number(item.discount), 0) %>">
+
+
+                    <div class="flex items-center mb-4">
+                        <input id="online" type="radio" name="paymentMethod" value="Online" class="w-5 h-5" required>
+                        <label for="online" class="ml-2 text-lg font-medium">Online</label>
+                    </div>
+
+                    <div class="flex items-center mb-6">
+                        <input id="hdfc" type="radio" name="paymentMethod" value="HDFC" class="w-5 h-5">
+                        <label for="hdfc" class="ml-2 text-lg font-medium">HDFC Payment</label>
+                    </div>
+
+                    <button type="submit" class="px-6 py-2 text-white bg-purple-600 rounded-full hover:bg-purple-700">
+                        PLACE ORDER
+                    </button>
+                </form>
+
+            </div>
+        </div>
+        <%} else{ %>
+            <div class="w-full h-[50vh] p-2 box-border flex flex-col justify-center items-center ">
+                <div class="w-full h-[50%] opacity-50 flex justify-center">
+                    <img class="w-[25vh] h-[25vh] object-center inline-block" src="../images/empty_cart.png" alt="">
+                </div>
+                <h1 class="text-2xl text-center">Your Cart is Currenlty Empty.</h1>
+                <p class="text-sm p-2 text-center">Before Proceed to checkout you must add some products to your
+                    shopping
+                    cart.you will find a
+                    lot of interesting products on your "shop" page. </p>
+                <a class="cursur-pointer" href="/">
+                    <div class="text-center mt-2">
+                        <button class="text-lg bg-black text-white px-5 py-4 rounded-full ">Return to shop</button>
+                    </div>
+                </a>
+
+            </div>
+            <%}%>
+
+                <%- include('./partials/footer') %>

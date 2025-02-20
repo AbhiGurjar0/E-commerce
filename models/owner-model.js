@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const ownerSchema = mongoose.Schema({
-  fullname:{
-    type:String,
-    minLength:3,
-    trim:true
+  fullname: {
+    type: String,
+    minLength: 3,
+    trim: true,
   },
   email: String,
   password: String,
@@ -12,9 +12,22 @@ const ownerSchema = mongoose.Schema({
     type: Array,
     default: [],
   },
-  isadmin: Boolean,
-  picture: String,
-  gstin:String
+  orders: [
+    {
+      productId: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
+      status: String,
+      createdAt: { type: Date, default: Date.now },
+    },
+  ],
+  role: { type: String, enum: ["user", "admin"], default: "admin" },
+  gstin:{
+    type:String,
+    default:0,
+  },
+  goldPrice:{
+    type:String,
+    default:0,
+  },
 });
 
-module.exports = mongoose.model("owner",ownerSchema)
+module.exports = mongoose.model("owner", ownerSchema);

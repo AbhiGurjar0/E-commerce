@@ -1,24 +1,36 @@
-
 .scrollbar-hide {
-    scrollbar-width: none;
-  }
-  /* #price-filter {
+  scrollbar-width: none;
+}
+
+/* #price-filter {
     font-family: Arial, sans-serif;
     width: 300px;
     margin: 20px;
   } */
-  
 
-   .noUi-handle {
-    width: 18px !important; 
-    height: 12px !important; 
-    border-radius: 50%; 
-    background-color: #000; 
-    border: 2px solid white; 
-    box-shadow: none;
-  } 
 
-  .noUi-connect {
-    background: #000;
-    height: 4px;
-  } 
+.noUi-handle {
+  width: 18px !important;
+  height: 12px !important;
+  border-radius: 50%;
+  background-color: #000;
+  border: 2px solid white;
+  box-shadow: none;
+}
+
+.noUi-connect {
+  background: #000;
+  height: 4px;
+}
+@keyframes scroll {
+  from {
+      transform: translateX(0);
+  }
+  to {
+      transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 10s linear infinite;
+}

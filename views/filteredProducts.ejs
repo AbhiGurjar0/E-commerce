@@ -1,0 +1,91 @@
+<%- include('./partials/header') %>
+    <div class="w-full min-h-screen flex gap-10">
+        <div class="w-[25%] h-full flex justify-center items-center pt-10 ">
+            <form id="filterForm" action="/products" method="GET">
+                <h2 class="text-lg font-bold">Price</h2>
+
+                <label>
+                    <input type="checkbox" name="price" value="0-10000">
+                    Below ₹ 10,000
+                </label><br>
+
+                <label>
+                    <input type="checkbox" name="price" value="10000-20000">
+                    ₹ 10,000 - ₹ 20,000
+                </label><br>
+
+                <label>
+                    <input type="checkbox" name="price" value="20000-30000">
+                    ₹ 20,000 - ₹ 30,000
+                </label><br>
+
+                <label>
+                    <input type="checkbox" name="price" value="30000-40000">
+                    ₹ 30,000 - ₹ 40,000
+                </label><br>
+
+                <label>
+                    <input type="checkbox" name="price" value="50000-1000000">
+                    ₹ 50,000 and Above
+                </label><br>
+
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 mt-2">Apply Filters</button>
+            </form>
+        </div>
+
+        <div class="products w-full md:w-[72%] h-min-[60vh] flex flex-wrap gap-2 my-2 ">
+            <% if(products.length>0){%>
+                <% products.forEach(product=> { %>
+                    <a href="/product/<%=product._id%>">
+                        <div class="w-[17vw]">
+                            <!-- Jewelry Card -->
+                            <div class="bg-white shadow-lg rounded-xl overflow-hidden border">
+                                <% if (product.images && product.images.length> 0) { %>
+                                    <img src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
+                                        class="w-full h-60 object-center object-cover" />
+                                    <% } else { %>
+                                        <p>No images available for this product.</p>
+                                        <% } %>
+                                            <div class="p-4">
+                                                <h2 class="font-bold text-lg text-nowrap">
+                                                    <%=product.name%>
+                                                </h2>
+                                                <p class="text-sm text-gray-500">By Padmawat Jewellers</p>
+                                                <!-- <p class="text-sm text-gray-500">No Reviews Yet</p> -->
+                                                <div class="flex justify-between items-center mt-3 ">
+                                                    <span class="text-purple-600 font-semibold text-md">(₹)
+                                                        <%=Number(Number(product.price) - Number(product.discount))%>
+                                                    </span>
+                                                    <span class="text-purple-200  text-md line-through">
+                                                        <%=product.price%>
+                                                    </span>
+                                                    <span class="text-gray-500 text-sm">
+                                                        <%=product.gold%>G
+                                                    </span>
+                                                    <span class="text-gray-500 text-sm">SAVE:<%=product.discount%>
+                                                            </span>
+                                                </div>
+                                                <div class="flex justify-center items-center mt-4">
+                                                    <a class="w-full" href="/add-to-cart/<%=product._id%>">
+                                                        <button
+                                                            class="w-full uppercase text-white text-xl bg-black py-2 px-3 ">Add
+                                                            to cart</button>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                            </div>
+                            <!-- Duplicate the above card for more items with different details -->
+                        </div>
+                    </a>
+
+
+                    <% }); %>
+                        <%}else{%>
+                            <h1>There is no product in this price range 😥..</h1>
+                            <%}%>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js"></script>
+    <script src="../javascripts/script.js"></script>
+    <%- include('./partials/footer') %>

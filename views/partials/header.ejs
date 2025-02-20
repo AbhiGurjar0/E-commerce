@@ -6,12 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../../stylesheets/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- noUiSlider CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css" />
-
 </head>
 
 <body class="font-Lato">
-    
+    <div class="w-full h-auto">
+        <nav class="bg-white shadow-lg fixed top-0 left-0 w-full z-50 mb-5">
+            <div class="h-auto relative flex justify-between items-center px-4 sm:px-6 py-3">
+                <!-- Logo -->
+                <a href="/" class="h-auto text-3xl font-bold text-gray-800">
+                    <img class="h-12 sm:h-[6vw] object-top object-cover" src="../../images/Padmavati jewelers pdf_page-0001.jpg" alt="image">
+                </a>
+
+                <!-- Search Bar -->
+                <div class="relative flex items-center w-full max-w-md">
+                    <form class="relative w-full" action="/search" method="get">
+                        <input type="text" placeholder="Search products..."
+                            class="w-full p-2 border border-gray-300 rounded-full pl-4 focus:ring-2 focus:ring-blue-400 outline-none transition duration-200"
+                            name="q" />
+                        <button type="submit"
+                            class="absolute right-2 top-2 text-blue-500 hover:text-blue-600 transition">
+                            🔍
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Icons -->
+                <div class="flex space-x-2 sm:space-x-4">
+                    <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">
+                        ❤️
+                    </button>
+                    <a href="/profile">
+                        <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">
+                            👤
+                        </button>
+                    </a>
+                    <a href="/cart">
+                        <button class="p-2 rounded-full bg-black text-white hover:bg-gray-800 transition">
+                            🛒
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="flex flex-wrap justify-center space-x-3 sm:space-x-6 mt-2 bg-gray-100 py-2 shadow-inner">
+                <% categories.forEach(function(category) { %>
+                    <a href="/product-category/<%= category %>"
+                        class="text-gray-700 font-medium hover:text-blue-500 transition duration-200 capitalize">
+                        <%= category %>
+                    </a>
+                <% }) %>
+            </div>
+        </nav>
+    </div>
+
