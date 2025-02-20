@@ -1,0 +1,130 @@
+<%- include('./partials/header') %>
+    <% if(error.length>0){ %>
+        <div class="absolute top-10 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-red-500 z-[99]">
+            <span class="inline-block mt-1 mb-1 text-white">
+                <%= error %>
+            </span>
+        </div>
+        <% } %>
+        <div class="w-full box-boder bg-white text-black px-2 pt-5 z-[999]">
+            <div class=" w-full flex gap-5  items-center mb-5  justify-center box-border md:px-2">
+                <svg class="w-[20px] md:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path>
+                </svg>
+                <div class="w-[80%] md:w-[20%] flex justify-center">
+                    <img class="w-[17vw] object-cover object-center" src="../images/foro-thick.png" alt="logo">
+                </div>
+                <div class="w-[95vw] md:min-w-[60%] pl-2 relative mb-2 hidden md:block">
+                    <svg class=" h-6 absolute top-2 right-2 md:left-4" xmlns=" http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M11 2C15.968 2 20 6.032 20 11C20 15.968 15.968 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2ZM11 18C14.8675 18 18 14.8675 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18ZM19.4853 18.0711L22.3137 20.8995L20.8995 22.3137L18.0711 19.4853L19.4853 18.0711Z">
+                        </path>
+                    </svg>
+                    <input class=" w-full py-2 pl-10 box-boder  border-[1px] border-zinc-400 outline-none rounded-full"
+                        type="text" placeholder="Search for products">
+                </div>
+    
+                <div class="bg-[#F3F3F3] hidden md:block rounded-full p-2">
+                    <svg class=" w-[1.5vw] h-[1.5vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853ZM18.827 6.1701C17.3279 4.66794 14.9076 4.60701 13.337 6.01687L12.0019 7.21524L10.6661 6.01781C9.09098 4.60597 6.67506 4.66808 5.17157 6.17157C3.68183 7.66131 3.60704 10.0473 4.97993 11.6232L11.9999 18.6543L19.0201 11.6232C20.3935 10.0467 20.319 7.66525 18.827 6.1701Z">
+                        </path>
+                    </svg>
+    
+                </div>
+                <div
+                    class="flex gap-2 items-center overflow-hidden text-nowrap px-2 py-1 rounded-full md:bg-[#F3F3F3] md:min-w-[10vw]">
+                    <svg class="w-[6vw] h-[6vw] md:w-[2vw] md:h-[2vw]" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M4 22C4 17.5817 7.58172 14 12 14C16.4183 14 20 17.5817 20 22H18C18 18.6863 15.3137 16 12 16C8.68629 16 6 18.6863 6 22H4ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11Z">
+                        </path>
+                    </svg>
+                    <p class="text-black hidden md:block ">Login/Register</p>
+    
+                </div>
+                <a href="/cart">
+                    <div class="relative rounded-full p-2 md:bg-black ">
+                        <span
+                            class="absolute top-[-.5vw] right-[-.5vw] text-[8px] bg-black text-white py-1 px-2 rounded-[5vw] md:bg-white md:text-black">2</span>
+                        <svg class="w-[5vw] h-[5vw] fill-black md:w-[1.5vw] md:h-[1.5vw] md:fill-white"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="">
+                            <path
+                                d="M4.00488 16V4H2.00488V2H5.00488C5.55717 2 6.00488 2.44772 6.00488 3V15H18.4433L20.4433 7H8.00488V5H21.7241C22.2764 5 22.7241 5.44772 22.7241 6C22.7241 6.08176 22.7141 6.16322 22.6942 6.24254L20.1942 16.2425C20.083 16.6877 19.683 17 19.2241 17H5.00488C4.4526 17 4.00488 16.5523 4.00488 16ZM6.00488 23C4.90031 23 4.00488 22.1046 4.00488 21C4.00488 19.8954 4.90031 19 6.00488 19C7.10945 19 8.00488 19.8954 8.00488 21C8.00488 22.1046 7.10945 23 6.00488 23ZM18.0049 23C16.9003 23 16.0049 22.1046 16.0049 21C16.0049 19.8954 16.9003 19 18.0049 19C19.1095 19 20.0049 19.8954 20.0049 21C20.0049 22.1046 19.1095 23 18.0049 23Z">
+                            </path>
+                        </svg>
+                    </div>
+                </a>
+    
+            </div>
+        </div>
+        </div>
+        <div class="flex gap-10 justify-center" ">
+            <a class=" text-md" href="">New Arrivals</a>
+            <a class="text-md" href="">Rings</a>
+            <a class="text-md" href="">Necklaces</a>
+            <a class="text-md" href="">Braclet</a>
+            <a class="text-md" href="">Earrings</a>
+            <a class="text-md" href="">My Account</a>
+        </div>
+    </div>
+    <div class="creation w-full h-[35vw] p-10 bg-white  flex">
+        <div class="left w-[50%] p-10 border-r-2 flex flex-col justify-center ">
+            <h1 class="text-3xl text-black ">Welcome to Jwelery.com</h1>
+            <h3 class="text-xl color-white mb-3">Create Your Account</h3>
+            <form  action="/users/register" method="post" class=" text-black flex flex-col gap-5">
+               
+               <div>
+                <input class="w-[80%] border-none bg-[#F3F3F3] py-2 px-3 rounded-md outline-none" type="text" placeholder="Full Name" name="fullname">
+               </div>
+               <div><input class="w-[80%] border-none bg-[#F3F3F3] py-2 px-3 rounded-md outline-none" type="text" placeholder="Email" name="email"></div>
+               <div><input class="w-[80%] border-none bg-[#F3F3F3] py-2 px-3 rounded-md outline-none block" type="password" placeholder="Password" name="password" id="password">
+                <span  id="error-message" class="text-red-500 pl-1"></span>
+            </div>
+               <div><input class=" w-[30%] p-3 bg-blue-400 text-white rounded-full" type="submit" value="Create My Account"></div>
+            </form>
+        </div>
+        <div class="right w-[50%] py-20 px-10  flex flex-col justify-center">
+            <h1 class="text-2xl mb-3">Login Your Account</h1>
+            <form action="/users/login" method="post" class=" text-black flex flex-col gap-5">
+                <input class="w-[80%] border-none bg-[#F3F3F3] py-2 px-3 rounded-md outline-none" type="email" placeholder="Email" name="email">
+                <input class="w-[80%] border-none bg-[#F3F3F3] py-2 px-3 rounded-md outline-none" type="password" placeholder="Password" name="password">
+                <input class=" w-[30%] p-3 bg-blue-400 text-white rounded-full " type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+    <div class="w-full h-[30vh] flex  pt-10 px-3 bg-[#A49D97]">
+        <div class="w-[50%] h-full">
+            <h1 class="text-2xl mb-5">HELP</h1>
+            <div class="h-full flex flex-col gap-2">
+                <a href="">FAQ</a>
+                <a href="">Shipping & Returns</a>
+                <a href="">Size Guides</a>
+                <a href="">Shop with confidence</a>
+            </div>
+        </div>
+        <div class="w-[50%] h-full">
+            <h1 class="text-2xl mb-5">Company</h1>
+            <div class="h-full flex flex-col gap-2">
+                <a href="">Our Brand</a>
+                <a href="">Our team</a>
+                <a href="">Contact</a>
+                <a href="">careers</a>
+            </div>
+        </div>
+    </div>
+    <div class="w-full h-[10vh] flex gap-5 pl-4 bg-[#A49D97] border-1 box-boder pt-5">
+        <a href="">
+            <p>Terms And Condition</p>
+        </a>
+        <a href="">
+            <p>privacy policy</p>
+        </a>
+        <a href="">
+            <p>&copy;2025</p>
+        </a>
+    </div>
+    <script src="../javascripts/script.js"></script>
+    <%- include('./partials/footer') %>
