@@ -7,7 +7,7 @@ async function categoryMiddleware(req, res, next) {
     
     // res.locals mein categories store karein (EJS ke liye)
     res.locals.categories = categories;
-    
+     
     next();
   } catch (error) {
     console.error('Error fetching categories:', error);
