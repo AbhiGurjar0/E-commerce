@@ -3,6 +3,7 @@ const router = express.Router();
 const ownerModel = require("../models/owner-model");
 const userModel = require("../models/user-model");
 const productModel = require("../models/product-model");
+const Transaction = require("../models/transaction");
 const Pricing = require("../models/price-model");
 const Order = require("../models/order-model");
 const isAdmin = require("../middlewares/isAdmin");
@@ -39,28 +40,44 @@ router.get("/admin-login", function (req, res) {
   res.render("adminLogin", { error });
 });
 router.get("/", isLoggedIn, isAdmin, async function (req, res) {
-  let success = req.flash("success");
-  const orders = await Order.find().populate("userId", "fullname");
-  // const order = await Order.findById(orderId).populate('userId', 'fullname');
-  let products = await productModel.find();
-  let user = await userModel.find();
-  const uniqueUsersCount = await userModel.distinct("_id").countDocuments();
-  let admin = await ownerModel.findOne();
-  const totalOrders = orders.length ? orders.length : 0;
-  const pricing = await Pricing.findOne();
-  // console.log(user[3].cart);
-  let error = req.flash("error");
-  res.render("admin", {
-    success,
-    users: uniqueUsersCount,
-    user: user,
-    orders,
-    admin,
-    totalOrders,
-    pricing,
-    products,
-    error,
-  });
+  try {
+    let success = req.flash("success");
+    const orders = await Order.find().populate("userId", "fullname");
+    // const order = await Order.findById(orderId).populate('userId', 'fullname');
+    let products = await productModel.find();
+    let user = await userModel.find();
+    const uniqueUsersCount = await userModel.distinct("_id").countDocuments();
+    let admin = await ownerModel.findOne();
+    const totalOrders = orders.length ? orders.length : 0;
+    const pricing = await Pricing.findOne();
+    let count = 0;
+    orders.forEach(function (order) {
+      if (order.status !== "Cancelled") {
+        count++;
+      }
+    });
+    const transactions = await Transaction.find().populate(
+      "userId",
+      "fullname email"
+    );
+    let error = req.flash("error");
+    res.render("admin", {
+      success,
+      users: uniqueUsersCount,
+      user: user,
+      orders,
+      admin,
+      totalOrders,
+      pricing,
+      products,
+      error,
+      transactions,
+      count,
+    });
+  } catch (error) {
+    console.error("Failed to fetch transactions:", error);
+    res.status(500).send("Error fetching transactions");
+  }
 });
 
 // router.get("/admin/orders", isLoggedIn, isAdmin, async (req, res) => {
@@ -329,7 +346,7 @@ router.post("/edit/email", isLoggedIn, isAdmin, async function (req, res) {
     req.flash("error", "Admin not found.");
     return res.redirect("/owners/admin-login");
   }
-  await ownerModel.findOneAndUpdate({ email:email }, { new: true });
+  await ownerModel.findOneAndUpdate({ email: email }, { new: true });
 
   res.redirect("/owners");
 });

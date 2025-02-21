@@ -1,3 +1,6 @@
+require('dotenv').config();
+
+
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
@@ -9,9 +12,10 @@ const productsRouter = require("./routes/productsRouter");
 const expressSession = require("express-session");
 const categoryMiddleware = require('./middlewares/categoryMiddleware');
 const flash = require("connect-flash");
+const payments = require("./routes/payments");
 
 const db = require("./config/mongoose-connection");
-require("dotenv").config();
+require('dotenv').config();
 
 app.use(categoryMiddleware);
 app.use(express.json());
@@ -31,5 +35,6 @@ app.use("/owners", ownersRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 app.use("/", index);
+app.use("/payment",payments);
 
 app.listen(3000);

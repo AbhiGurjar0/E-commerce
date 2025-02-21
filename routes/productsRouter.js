@@ -7,7 +7,7 @@ const isLoggedIn = require("../middlewares/isLoggedIn");
 router.post("/create",isLoggedIn,isAdmin, upload.array("images", 5), async function (req, res) {
   try {
     // console.log(req.files.map(file => file.buffer)); // Log uploaded images
-    let { name, price, discount, category, description, stock, size, color, metal,gold} = req.body;
+    let { name, price, discount, category, description, size, color, metal,gold} = req.body;
 
     let product = await productModel.create({
       images: req.files.map(file => file.buffer),
@@ -16,7 +16,6 @@ router.post("/create",isLoggedIn,isAdmin, upload.array("images", 5), async funct
       discount,
       category,
       description,
-      stock,
       size,
       color,
       metal,

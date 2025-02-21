@@ -14,6 +14,15 @@ const orderSchema = new mongoose.Schema({
         status: String,
         timestamp: { type: Date, default: Date.now }
     }],
+    shippingAddress: { 
+        fullName: String,
+        phoneNumber: String,
+        fullAddress: String,
+        city: String,
+        state: String,
+        zipCode: String,
+        country: String,
+    },
     createdAt: { type: Date, default: Date.now },
     productId: {
         type: mongoose.Schema.Types.ObjectId,

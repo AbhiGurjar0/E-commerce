@@ -81,35 +81,37 @@
 
             </div>
             <div class="w-[30%] bg-white shadow-xl rounded-xl p-6 border h-[50%]">
-                <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
-                <p class="text-lg">Subtotal: ₹<%=discountedPrice%>
-                </p>
-                <p class="text-lg">Shipping: ₹<%=shippingCharge%>
-                </p>
-                <p class="text-xl font-bold">Total: ₹<%=discountedPrice + shippingCharge%>
-                </p>
-                <p class="text-green-600 font-semibold">You saved ₹<%=totalSaved%>
-                </p>
-                <form action="/createOrder/<%=user._id%>" method="POST">
-                    <!-- Hidden field for amount -->
-                    <input type="hidden" name="amount"
-                        value="<%= user.cart.reduce((total, item) => total + Number(item.price) - Number(item.discount), 0) %>">
+                <h2 class="text-2xl font-bold mb-4">Checkout Page:</h2>
 
+                <p class="text-lg">Subtotal: ₹<%= discountedPrice %>
+                </p>
+                <p class="text-lg">Shipping charge: ₹<%= shippingCharge %>
+                </p>
 
-                    <div class="flex items-center mb-4">
-                        <input id="online" type="radio" name="paymentMethod" value="Online" class="w-5 h-5" required>
-                        <label for="online" class="ml-2 text-lg font-medium">Online</label>
-                    </div>
+                <p class="text-xl font-bold">Total: ₹<%= discountedPrice + shippingCharge %>
+                </p>
+                <p class="text-green-600 font-semibold">You saved ₹<%= totalSaved %>
+                </p>
+               
 
-                    <div class="flex items-center mb-6">
-                        <input id="hdfc" type="radio" name="paymentMethod" value="HDFC" class="w-5 h-5">
-                        <label for="hdfc" class="ml-2 text-lg font-medium">HDFC Payment</label>
-                    </div>
+                <!-- Hidden Fields -->
+                <input type="hidden" id="userId" value="<%= user._id %>">
+                <input type="hidden" id="amount"
+                    value="<%= user.cart.reduce((total, item) => total + Number(item.price) - Number(item.discount), 0) %>">
 
-                    <button type="submit" class="px-6 py-2 text-white bg-purple-600 rounded-full hover:bg-purple-700">
-                        PLACE ORDER
-                    </button>
-                </form>
+                <div class="flex items-center mb-4">
+                    <input id="online" type="radio" name="paymentMethod" value="Online" class="w-5 h-5" required>
+                    <label for="online" class="ml-2 text-lg font-medium">Online</label>
+                </div>
+
+                <div class="flex items-center mb-6">
+                    <input id="hdfc" type="radio" name="paymentMethod" value="HDFC" class="w-5 h-5">
+                    <label for="hdfc" class="ml-2 text-lg font-medium">HDFC Payment</label>
+                </div>
+
+                <button id="payButton" class="px-6 py-2 text-white bg-purple-600 rounded-full hover:bg-purple-700">
+                    Pay Now
+                </button>
 
             </div>
         </div>
@@ -131,5 +133,64 @@
 
             </div>
             <%}%>
+                <!-- Razorpay Script -->
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                <script>
+                    document.getElementById("payButton").onclick = async function (e) {
+                        e.preventDefault();
+
+                        const amount = document.getElementById("amount").value;
+                        const userId = document.getElementById("userId").value;
+                        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+                        const response = await fetch("/payment/create-order", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ amount, userId, paymentMethod })
+                        });
+
+                        const { order } = await response.json();
+
+                        if (!order) {
+                            alert("Order creation failed!");
+                            return;
+                        }
+
+                        const options = {
+                            key: "<%= razorpayKey %>",
+                            amount: order.amount,
+                            currency: order.currency,
+                            name: "E-Commerce Store",
+                            description: "Order Payment",
+                            order_id: order.id,
+                            handler: async function (response) {
+                                const verifyResponse = await fetch("/payment/verify-payment", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                        razorpay_order_id: response.razorpay_order_id,
+                                        razorpay_payment_id: response.razorpay_payment_id,
+                                        razorpay_signature: response.razorpay_signature,
+                                        userId,
+                                        amount,
+                                        paymentMethod
+                                    })
+                                });
+
+                                const result = await verifyResponse.json();
+                                if (result.success) {
+                                    alert("Payment Successful! Your order has been placed.");
+                                    window.location.href = "/cart";
+                                } else {
+                                    alert("Payment verification failed.");
+                                }
+                            },
+                            theme: { color: "#3399cc" }
+                        };
+
+                        const rzp = new Razorpay(options);
+                        rzp.open();
+                    };
+                </script>
 
                 <%- include('./partials/footer') %>
