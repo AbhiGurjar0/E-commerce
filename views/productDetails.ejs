@@ -1,226 +1,164 @@
 <%- include('./partials/header') %>
-    <div class="flex gap-6 px-32 pt-10 mb-10 border-b-2 ">
-        <!-- Left Section: Image Slider -->
-
+<div class="flex flex-col md:flex-row gap-6 md:px-32 pt-10 mb-10 border-b-2 px-10 overflow-hidden">
+    <!-- Left Section: Image Slider -->
+    <div class="hidden md:block md:w-[5vw] space-y-4">
         <div class="w-[5vw] space-y-4">
-            <div class="w-[5vw] space-y-4">
-                <% product.images.forEach(function(image, index) { %>
-                    <img src="data:image/jpeg;base64,<%= image.toString('base64') %>" alt="Product Image"
-                        class="w-full rounded-lg cursor-pointer" onclick="changeImage('<%= index %>')" />
-                    <% }) %>
-            </div>
-
-
+            <% product.images.forEach(function(image, index) { %>
+                <img src="data:image/jpeg;base64,<%= image.toString('base64') %>" alt="Product Image"
+                    class="w-full rounded-lg cursor-pointer" onclick="changeImage('<%= index %>')" />
+            <% }) %>
         </div>
-        <div class="w-[35vw] h-[40vw] flex justify-center items-center  relative">
+    </div>
+    <div class="w-full h-[50vh] md:w-[35vw] md:h-[40vw] flex justify-center items-center relative">
+        <% if (product.images && product.images.length > 0) { %>
+            <img id="mainImage" src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
+                alt="Product Image" class="w-full h-[40vh] md:w-[35vw] md:h-[40vw] object-cover object-center rounded-lg mb-2" />
+        <% } else { %>
+            <p>No images available for this product.</p>
+        <% } %>
+    </div>
 
-            <% if (product.images && product.images.length> 0) { %>
-                <img id="mainImage" src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
-                    alt="Product Image" class="w-[35vw] h-[40vw] object-cover object-center rounded-lg mb-2" />
-                <% } else { %>
-                    <p>No images available for this product.</p>
+    <!-- Right Section: Product Info -->
+    <div class="w-full md:w-1/3 space-y-4 md:p-0 ">
+        <h1 class="capitalize text-2xl font-bold"><%=product.name%></h1>
+        <div class="hidden md:flex items-center space-x-2">
+            <span class="text-yellow-400">★★★★★</span>
+            <span class="text-sm text-gray-600">(6 customer reviews)</span>
+        </div>
+        <div class="text-3xl font-bold text-black">₹<%=Number(Number(product.price) - Number(product.discount))%>
+            <span class="line-through text-gray-400 text-lg">₹<%=product.price%></span>
+        </div>
+        <p class="text-green-500 font-semibold">You Save ₹<%=product.discount%></p>
+        <p class="hidden md:block text-sm text-gray-500 bg-gray-200 p-2 rounded-md">Offer: 50% Off On Labour</p>
+        <button class="hidden md:block bg-gray-200 text-black py-2 px-4 rounded-lg">🎉 Purchase this item and get 21946 Points</button>
+
+        <!-- Color Options -->
+        <p class="font-semibold">Colour:<%=product.color%></p>
+        <div class="flex space-x-2">
+            <div class="w-6 h-6 rounded-full border-2 border-black bg-[<%=product.color%>]"></div>
+        </div>
+
+        <!-- Size Selector -->
+        <p class="font-semibold mt-4">Size:<%=product.size%></p>
+        <div class="flex space-x-3"></div>
+
+        <!-- Metal Type -->
+        <p class="font-semibold mt-4">Metal Type</p>
+        <div class="flex space-x-4">
+            <label class="flex justify-center items-center space-x-2">
+                <input type="radio" name="metal" checked />
+                <span><%=product.metal%></span>
+            </label>
+        </div>
+        <div class="py-2">
+            <a href="/add-to-cart/<%=product._id%>">
+                <button class="w-full uppercase text-white text-xl bg-red-500 py-2 px-3">Add to cart</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="w-full md:w-[90vw] flex flex-col justify-center md:pl-20 gap-10 mb-10 px-10">
+    <h2 class="text-2xl font-semibold uppercase mb-2">Product Description</h2>
+    <p class="text-lg text-gray-800 leading-relaxed"><%=product.description%></p>
+</div>
+
+<!-- Product Specifications -->
+<!-- <div class="text-lg text-gray-700 w-full md:w-[90vw] flex flex-col justify-center md:pl-20 gap-10 mb-10">
+    <h2 class="text-2xl font-semibold uppercase mt-8 mb-2">Product Specifications</h2>
+    <div class="flex justify-between">
+        <strong>Specification</strong>
+        <p class="mt-2"><%=product.specification%></p>
+    </div>
+</div> -->
+
+<!-- Product Price BreakUp -->
+<div class="box-border text-sm md:text-md w-full md:w-[90vw] flex flex-col justify-center md:pl-20 gap-10 mb-10 px-5 overflow-hidden">
+    <h2 class="text-2xl font-semibold uppercase mt-8 mb-4">Product Price BreakUp</h2>
+    <table class="w-full border border-gray-300 text-left">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="border border-gray-300 px-4 py-2 font-semibold">Component</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold">Rate</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold">Weight</th>
+                <th class="border border-gray-300 px-4 py-2 font-semibold">Final</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-700">
+            <tr>
+                <td class="border border-gray-300 px-4 py-2"><strong>Gold</strong> <br> 22 K</td>
+                <td class="border border-gray-300 px-4 py-2">₹ <%= pricing.goldPrice %>/ G</td>
+                <td class="border border-gray-300 px-4 py-2"><%= product.gold %> G</td>
+                <td class="border border-gray-300 px-4 py-2">₹ <%= goldCost %></td>
+            </tr>
+            <tr>
+                <td class="border border-gray-300 px-4 py-2 font-semibold">Making Charges</td>
+                <td class="border border-gray-300 px-4 py-2">₹ <%= pricing.makingPrice %> /G</td>
+                <td class="border border-gray-300 px-4 py-2"><%= product.gold %> G</td>
+                <td class="border border-gray-300 px-4 py-2">₹ <%= makingCost %></td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="border border-gray-300 px-4 py-2 font-bold">Sub Total</td>
+                <td class="border border-gray-300 px-4 py-2">-</td>
+                <td class="border border-gray-300 px-4 py-2">-</td>
+                <td class="border border-gray-300 px-4 py-2 font-semibold">₹ <%= subtotal %></td>
+            </tr>
+            <tr>
+                <td class="border border-gray-300 px-4 py-2 font-bold">GST</td>
+                <td class="border border-gray-300 px-4 py-2"><%= pricing.gst %> %</td>
+                <td class="border border-gray-300 px-4 py-2">-</td>
+                <td class="border border-gray-300 px-4 py-2 font-semibold">₹ <%= gstAmount %></td>
+            </tr>
+            <tr class="bg-gray-200 font-bold">
+                <td class="border border-gray-300 px-4 py-2 uppercase">Grand Total</td>
+                <td class="border border-gray-300 px-4 py-2">-</td>
+                <td class="border border-gray-300 px-4 py-2">-</td>
+                <td class="border border-gray-300 px-4 py-2 text-lg text-green-700">₹ <%= grandTotal %></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2 class="text-2xl font-semibold uppercase mb-10 ml-20">Related products</h2>
+<div class="flex flex-wrap gap-2 justify-center py-10 md:px-0 px-5">
+    <% products.forEach(function(prod) { %>
+        <% if (prod.category === product.category && prod._id !== product._id) { %>
+            <a href="/product/<%= product._id %>">
+                <div class="w-full md:w-[15vw] border rounded-lg overflow-hidden shadow-sm">
+                    <% if (product.images && product.images.length > 0) { %>
+                        <img src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
+                            class="w-full h-52 object-cover" />
+                    <% } else { %>
+                        <p>No images available for this product.</p>
                     <% } %>
-                        <!-- <button class="absolute inset-0 m-auto text-gray-700 bg-white p-3 rounded-full shadow-lg">▶</button> -->
-        </div>
-
-        <!-- Right Section: Product Info -->
-        <div class="w-1/3 space-y-4 ">
-            <h1 class="text-2xl font-bold">
-                <%=product.name%>
-            </h1>
-            <div class="flex items-center space-x-2">
-                <span class="text-yellow-400">★★★★★</span>
-                <span class="text-sm text-gray-600">(6 customer reviews)</span>
-            </div>
-            <div class="text-3xl font-bold text-black">₹<%=Number(Number(product.price) - Number(product.discount))%>
-                    <span class="line-through text-gray-400 text-lg">₹<%=product.price%></span></div>
-            <p class="text-green-500 font-semibold">You Save ₹<%=product.discount%>
-            </p>
-            <p class="text-sm text-gray-500 bg-gray-200 p-2 rounded-md">Offer: 50% Off On Labour</p>
-            <button class="bg-gray-200 text-black py-2 px-4 rounded-lg">🎉 Purchase this item and get 21946
-                Points</button>
-
-            <!-- Color Options -->
-            <p class="font-semibold">Colour:<%=product.color%>
-            </p>
-            <div class="flex space-x-2">
-                <div class="w-6 h-6 rounded-full border-2 border-black bg-[<%=product.color%>]"></div>
-                <!-- <div class="w-6 h-6 rounded-full bg-[<%=product.color%>]"></div> -->
-            </div>
-
-            <!-- Size Selector -->
-            <p class="font-semibold mt-4">Size:<%=product.size%>
-            </p>
-            <div class="flex space-x-3">
-                <!-- <button class="w-10 h-10 border rounded-full font-semibold bg-black text-white">14</button>
-                <button class="w-10 h-10 border rounded-full">15</button>
-                <button class="w-10 h-10 border rounded-full">16</button>
-                <button class="w-10 h-10 border rounded-full">17</button>
-                <button class="w-10 h-10 border rounded-full">18</button> -->
-            </div>
-
-            <!-- Metal Type -->
-            <p class="font-semibold mt-4">Metal Type</p>
-            <div class="flex space-x-4 ">
-                <label class="flex justify-center items-center space-x-2">
-                    <input type="radio" name="metal" checked />
-                    <span>
-                        <%=product.metal%>
-                    </span>
-                </label>
-
-            </div>
-            <div class="py-2">
-                <a class="w-full " href="/add-to-cart/<%=product._id%>">
-                    <button class="w-full uppercase text-white text-xl bg-red-500 py-2 px-3 ">Add to cart</button>
-                </a>
-            </div>
-
-        </div>
-    </div>
-    <div class=" w-[90vw] flex flex-col justify-center pl-20 gap-10 mb-10">
-        <h2 class="text-2xl font-semibold uppercase mb-2">Product Description</h2>
-        <p class="text-lg text-gray-800 leading-relaxed ">
-            <%=product.description%>
-                <!-- <strong>Gold Purity(karat):</strong> 22k
-            <strong>Gold Weight(grams):</strong> 73.8
-            <strong>Item Finish:</strong> Antique Gold
-            <strong>Set Length:</strong> 15"
-            <strong>Set Width:</strong> 2"
-            <strong>Drop Length:</strong> 0.75"
-            <strong>Adjustable Links:</strong> 1.6"
-            <strong>Links Lock Style:</strong> Hook
-            <strong>Matching Earrings:</strong> Included
-            <strong>Earring Length:</strong> 3"
-            <strong>Earring Post:</strong> Screw Back -->
-        </p>
-    </div>
-
-    <!-- Product Specifications -->
-
-    <div class="text-lg text-gray-700  w-[90vw] flex flex-col justify-center pl-20 gap-10 mb-10">
-        <h2 class="text-2xl font-semibold uppercase mt-8 mb-2">Product Specifications</h2>
-        <div class="flex justify-between">
-            <strong>Specification</strong>
-            <p class="mt-2">
-                <%=product.specification%>
-            </p>
-        </div>
-
-    </div>
-
-    <!-- Product Price BreakUp -->
-    <div class="w-[90vw] flex flex-col justify-center pl-20 gap-10 mb-10">
-        <h2 class="text-2xl font-semibold uppercase mt-8 mb-4">Product Price BreakUp</h2>
-        <table class="w-full border border-gray-300 text-left ">
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold">Component</th>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold">Rate</th>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold">Weight</th>
-                    <th class="border border-gray-300 px-4 py-2 font-semibold">Final</th>
-                </tr>
-            </thead>
-            <tbody class="text-gray-700">
-                <tr>
-                    <td class="border border-gray-300 px-4 py-2"><strong>Gold</strong> <br> 22 K</td>
-                    <td class="border border-gray-300 px-4 py-2">₹ <%= pricing.goldPrice %>/ G</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        <%= product.gold %> G
-                    </td>
-                    <td class="border border-gray-300 px-4 py-2">₹ <%= goldCost %>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 px-4 py-2 font-semibold">Making Charges</td>
-                    <td class="border border-gray-300 px-4 py-2">₹ <%= pricing.makingPrice %> /G</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        <%= product.gold %> G
-                    </td>
-                    <td class="border border-gray-300 px-4 py-2">₹ <%= makingCost %>
-                    </td>
-                </tr>
-                <tr class="bg-gray-50">
-                    <td class="border border-gray-300 px-4 py-2 font-bold">Sub Total</td>
-                    <td class="border border-gray-300 px-4 py-2">-</td>
-                    <td class="border border-gray-300 px-4 py-2">-</td>
-                    <td class="border border-gray-300 px-4 py-2 font-semibold">₹ <%= subtotal %>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 px-4 py-2 font-bold">GST</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        <%= pricing.gst %> %
-                    </td>
-                    <td class="border border-gray-300 px-4 py-2">-</td>
-                    <td class="border border-gray-300 px-4 py-2 font-semibold">₹ <%= gstAmount %>
-                    </td>
-                </tr>
-                <tr class="bg-gray-200 font-bold">
-                    <td class="border border-gray-300 px-4 py-2 uppercase">Grand Total</td>
-                    <td class="border border-gray-300 px-4 py-2">-</td>
-                    <td class="border border-gray-300 px-4 py-2">-</td>
-                    <td class="border border-gray-300 px-4 py-2 text-lg text-green-700">₹ <%= grandTotal %>
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>
-    </div>
-
-    <h2 class="text-2xl font-semibold uppercase mb-10 ml-20">Related products</h2>
-    <div class="flex gap-2 justify-center py-10">
-        <!-- Product 1 -->
-        <%products.forEach(function(prod){%>
-            <%if(prod.category===product.category && prod._id !==product._id){%>
-                <a href="/product/<%=product._id%>">
-                    <div class="w-[15vw] border rounded-lg overflow-hidden shadow-sm">
-
-                        <% if (product.images && product.images.length> 0) { %>
-
-                            <img src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
-                                class="w-full h-52 object-cover" />
-                            <% } else { %>
-                                <p>No images available for this product.</p>
-                                <% } %>
-                                    <div class="p-4">
-                                        <h3 class="text-lg font-medium">
-                                            <%=prod.name%>
-                                        </h3>
-                                        <p class="text-gray-500 line-through">₹<%=prod.price%>
-                                        </p>
-                                        <p class="text-green-500 font-bold">₹<%=prod.price - prod.discount%>
-                                        </p>
-                                        <p class="text-sm text-teal-500">SAVE: ₹<%=(prod.price) -(prod.price -
-                                                prod.discount) %>
-                                        </p>
-                                    </div>
+                    <div class="p-4">
+                        <h3 class="capitalize text-lg font-medium"><%= prod.name %></h3>
+                        <p class="text-gray-500 line-through">₹<%= prod.price %></p>
+                        <p class="text-green-500 font-bold">₹<%= prod.price - prod.discount %></p>
+                        <p class="text-sm text-teal-500">SAVE: ₹<%= (prod.price) - (prod.price - prod.discount) %></p>
                     </div>
-                </a>
+                    <div class="flex justify-center items-center mt-4">
+                        <a class="w-[60%]" href="/add-to-cart/<%=product._id%>">
+                          <button class="w-full uppercase text-white text-md bg-black py-2 px-3 mb-2">Add to cart</button>
+                        </a>
+                      </div>
+                </div>
+            </a>
+        <% } %>
+    <% }) %>
+</div>
 
-                <% }%>
-                    <% })%>
-
-
-
-
-    </div>
-
-    <script>
-
-
-        const images = [
+<script>
+    const images = [
         <% product.images.forEach(function (image, index) { %>
             `data:image/jpeg;base64,<%= image.toString('base64') %>` <%= index < product.images.length - 1 ? ',' : '' %>
         <% }) %>
     ];
 
-        // Function to change the main image
-        function changeImage(index) {
-            const mainImage = document.getElementById('mainImage');
-            mainImage.src = images[index]; // Update the src using the preloaded image data
-        }
-    </script>
-    <!-- <script src="../javascripts/script.js"></script> -->
+    function changeImage(index) {
+        const mainImage = document.getElementById('mainImage');
+        mainImage.src = images[index];
+    }
+</script>
 
-    <%- include('./partials/footer') %>
+<%- include('./partials/footer') %>

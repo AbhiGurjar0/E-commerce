@@ -13,9 +13,8 @@ const expressSession = require("express-session");
 const categoryMiddleware = require('./middlewares/categoryMiddleware');
 const flash = require("connect-flash");
 const payments = require("./routes/payments");
-
 const db = require("./config/mongoose-connection");
-require('dotenv').config();
+// require('dotenv').config();
 
 app.use(categoryMiddleware);
 app.use(express.json());

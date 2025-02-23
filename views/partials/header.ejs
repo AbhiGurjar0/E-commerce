@@ -16,13 +16,15 @@
     <div class="w-full h-auto">
         <nav class="bg-white shadow-lg top-0 left-0 w-full z-50 mb-5">
             <div class="h-auto relative flex justify-between items-center px-4 sm:px-6 py-3">
+                <!-- <button id="menu-toggle" class="md:hidden text-xl">☰</button> -->
                 <!-- Logo -->
                 <a href="/" class="h-auto text-3xl font-bold text-gray-800">
-                    <img class="h-12 sm:h-[6vw] object-top object-cover" src="../../images/Padmavati jewelers pdf_page-0001.jpg" alt="image">
+                    <img class="h-12 sm:h-[6vw] object-top object-cover"
+                        src="../../images/Padmavati jewelers pdf_page-0001.jpg" alt="image">
                 </a>
 
                 <!-- Search Bar -->
-                <div class="relative flex items-center w-full max-w-md">
+                <div class="relative flex items-center w-[50%] md:w-full max-w-md">
                     <form class="relative w-full" action="/search" method="get">
                         <input type="text" placeholder="Search products..."
                             class="w-full p-2 border border-gray-300 rounded-full pl-4 focus:ring-2 focus:ring-blue-400 outline-none transition duration-200"
@@ -36,9 +38,9 @@
 
                 <!-- Icons -->
                 <div class="flex space-x-2 sm:space-x-4">
-                    <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">
+                    <!-- <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">
                         ❤️
-                    </button>
+                    </button> -->
                     <a href="/profile">
                         <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">
                             👤
@@ -53,14 +55,17 @@
             </div>
 
             <!-- Categories -->
-            <div class="flex flex-wrap justify-center space-x-3 sm:space-x-6 mt-2 bg-gray-100 py-2 shadow-inner">
+            <div class="flex flex-wrap justify-center space-x-3 sm:space-x-6 mt-2 bg-gray-100 py-2 shadow-inner overflow-auto ">
+                <a href="/product-category/all"
+                    class="text-gray-700 font-medium hover:text-blue-500 transition duration-200 capitalize">
+                    All
+                </a>
                 <% categories.forEach(function(category) { %>
                     <a href="/product-category/<%= category %>"
                         class="text-gray-700 font-medium hover:text-blue-500 transition duration-200 capitalize">
                         <%= category %>
                     </a>
-                <% }) %>
+                    <% }) %>
             </div>
         </nav>
     </div>
-

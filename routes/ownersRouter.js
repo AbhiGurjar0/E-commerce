@@ -118,7 +118,7 @@ router.post("/cancel-order/:orderId", isLoggedIn, isAdmin, async (req, res) => {
 });
 
 router.post("/update", isLoggedIn, isAdmin, async (req, res) => {
-  const { gst, makingPrice, goldPrice } = req.body;
+  const { gst, makingPrice, goldPrice,deliveryCharges } = req.body;
 
   try {
     const pricing = await Pricing.findOneAndUpdate(
@@ -127,6 +127,7 @@ router.post("/update", isLoggedIn, isAdmin, async (req, res) => {
         gst,
         makingPrice,
         goldPrice,
+        deliveryCharges,
         updatedAt: new Date(),
       },
       {
@@ -202,7 +203,6 @@ router.post(
       discount,
       category,
       description,
-      stock,
       size,
       color,
       metal,
@@ -231,7 +231,6 @@ router.post(
         discount,
         category,
         description,
-        stock,
         size,
         color,
         metal,
@@ -261,30 +260,31 @@ router.get("/viewUser/:id", isLoggedIn, isAdmin, async (req, res) => {
   }
 });
 
-router.delete("/deleteUser/:id", isLoggedIn, isAdmin, async (req, res) => {
-  try {
-    const user = await userModel.findByIdAndDelete(req.params.id);
-    if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-    }
-    res.redirect("/owners");
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
+// router.delete("/deleteUser/:id", isLoggedIn, isAdmin, async (req, res) => {
+//   try {
+//     const user = await userModel.findByIdAndDelete(req.params.id);
+//     if (!user) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "User not found" });
+//     }
+//     res.redirect("/owners");
+//   } catch (error) {
+//     res.status(500).json({ success: false, error: error.message });
+//   }
+// });
 router.get("/viewOrder/:id", isLoggedIn, isAdmin, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
       .populate("userId")
       .populate("productId");
+    const user = await userModel.findOne({_id:req.user._id});
     if (!order) {
       return res
         .status(404)
         .json({ success: false, message: "Order not found" });
     }
-    res.render("viewOrder", { order }); // Render a view-order.ejs page
+    res.render("viewOrder", { order,user }); // Render a view-order.ejs page
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

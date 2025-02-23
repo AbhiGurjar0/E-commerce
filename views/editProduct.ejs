@@ -1,58 +1,63 @@
 <%- include('./partials/header') %>
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Edit Product</h1>
-        <form action="/owners/update-product/<%= product._id %>" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
-            <div class="mb-4">
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Edit Product</h1>
+    <form action="/owners/update-product/<%= product._id %>" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
                 <label for="name" class="block text-gray-700 font-bold mb-2">Product Name</label>
                 <input type="text" id="name" name="name" value="<%= product.name %>" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
             </div>
-            <div class="mb-4">
+
+            <div>
                 <label for="price" class="block text-gray-700 font-bold mb-2">Price</label>
                 <input type="number" id="price" name="price" value="<%= product.price %>" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
             </div>
-            <div class="mb-4">
+
+            <div>
                 <label for="discount" class="block text-gray-700 font-bold mb-2">Discount</label>
                 <input type="number" id="discount" name="discount" value="<%= product.discount %>" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
             </div>
-            <div class="mb-4">
-                <label for="gold" class="block text-gray-700 font-bold mb-2">gold Quantity</label>
+
+            <div>
+                <label for="gold" class="block text-gray-700 font-bold mb-2">Gold Quantity</label>
                 <input type="text" id="gold" name="gold" value="<%= product.gold %>" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
             </div>
-            <div class="mb-4">
-                <label for="category" class="block text-gray-700 font-bold mb-2">category</label>
+
+            <div>
+                <label for="category" class="block text-gray-700 font-bold mb-2">Category</label>
                 <input type="text" id="category" name="category" value="<%= product.category %>" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
             </div>
-            <div class="mb-4">
-                <label for="stock" class="block text-gray-700 font-bold mb-2">stock</label>
-                <input type="text" id="stock" name="stock" value="<%= product.stock %>" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
-            </div>
-            <div class="mb-4">
-                <label for="size" class="block text-gray-700 font-bold mb-2">size</label>
+
+            <div>
+                <label for="size" class="block text-gray-700 font-bold mb-2">Size</label>
                 <input type="text" id="size" name="size" value="<%= product.size %>" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
             </div>
-            <div class="mb-4">
-                <label for="color" class="block text-gray-700 font-bold mb-2">color</label>
+
+            <div>
+                <label for="color" class="block text-gray-700 font-bold mb-2">Color</label>
                 <input type="text" id="color" name="color" value="<%= product.color %>" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
             </div>
-            <div class="mb-4">
-                <label for="metal" class="block text-gray-700 font-bold mb-2">metal</label>
+
+            <div>
+                <label for="metal" class="block text-gray-700 font-bold mb-2">Metal</label>
                 <input type="text" id="metal" name="metal" value="<%= product.metal %>" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
             </div>
-            <div class="mb-4">
-                <label for="description" class=" block text-gray-700 font-bold mb-2">description</label>
-                <input type="textarea" placeholder="Product Description" class="px-3 py-2 border rounded w-full  "
-                              id="description"  name="description" value="<%=product.description%>" required>
-            </div>
-           
+        </div>
 
-            <div class="mb-4">
-                <label for="images" class="block text-gray-700 font-bold mb-2">Images</label>
-                <input type="file" id="images" name="images" multiple class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
-                <p class="text-gray-500 text-sm">Current images (if any) will be replaced.</p>
-            </div>
-            <div class="flex justify-end">
-                <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">Update Product</button>
-            </div>
-        </form>
-    </div>
-    <%- include('./partials/footer') %>
+        <div class="mt-4">
+            <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
+            <textarea id="description" name="description" placeholder="Product Description" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required><%= product.description %></textarea>
+        </div>
+
+        <div class="mt-4">
+            <label for="images" class="block text-gray-700 font-bold mb-2">Images</label>
+            <input type="file" id="images" name="images" multiple class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
+            <p class="text-gray-500 text-sm">Current images (if any) will be replaced.</p>
+        </div>
+
+        <div class="mt-6 flex justify-end">
+            <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">Update Product</button>
+        </div>
+    </form>
+</div>
+<%- include('./partials/footer') %>

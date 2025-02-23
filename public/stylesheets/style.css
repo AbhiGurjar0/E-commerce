@@ -22,7 +22,8 @@
   background: #000;
   height: 4px;
 }
-@keyframes scroll {
+
+/* @keyframes scroll {
   from {
       transform: translateX(0);
   }
@@ -33,4 +34,90 @@
 
 .animate-scroll {
   animation: scroll 10s linear infinite;
+} */
+
+.page-1 {
+  width: 100%;
+  min-height: 40vh;
+  padding-top: 1vw;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  background-color: #EFEAE3;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+
+
+}
+
+.page-1 .moving-text {
+  white-space: nowrap;
+  overflow: hidden;
+
+
+
+}
+
+.page-1 .moving-text::-webkit-scrollbar {
+  display: none;
+  scroll-behavior: auto;
+
+}
+
+.page-1 .moving-text1 .con {
+  display: inline-block;
+  white-space: nowrap;
+  animation-name: moveright;
+  animation-duration: 8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+}
+
+.page-1 .moving-text2 .con {
+  display: inline-block;
+  white-space: nowrap;
+  animation-name: moveleft;
+  animation-duration: 4s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.page-1 .moving-text3 .con {
+  display: inline-block;
+  white-space: nowrap;
+  animation-name: moveright;
+  animation-duration: 6s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+}
+
+
+.page-1 .moving-text .con img {
+  /* font-size: 9vw; */
+  display: inline-block;
+}
+
+
+
+@keyframes moveright {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes moveleft {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }

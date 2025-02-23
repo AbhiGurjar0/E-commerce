@@ -11,6 +11,7 @@ const priceModel = require("../models/price-model");
 const mongoose = require("mongoose");
 const isUser = require("../middlewares/isUser");
 
+
 router.get("/search", async (req, res) => {
   try {
     const query = req.query.q || "";
@@ -121,7 +122,8 @@ router.get("/profile", isLoggedIn, isUser, async function (req, res) {
       req.flash("error", "User not found. Please login again.");
       return res.redirect("/my-account");
     }
-
+    const pricing = await priceModel.findOne();
+    const shippingCharge = pricing.deliveryCharges;
     let orders = await Order.find({ userId: user._id });
     let products = await productModel.find();
 
@@ -132,6 +134,7 @@ router.get("/profile", isLoggedIn, isUser, async function (req, res) {
       orders,
       products,
       transactions: transactions,
+      shippingCharge,
     });
   } catch (err) {
     console.error("Profile Fetch Error:", err);
@@ -191,7 +194,17 @@ router.post("/addAddress", isLoggedIn, isUser, async function (req, res) {
     res.status(500).send("Error saving address.");
   }
 });
-
+router.get("/product-category/all", async function (req, res) {
+  try {
+    // const category = req.params.category; // Get category from URL
+    const products = await productModel.find(); // Fetch products from DB
+    res.render("all", { products, user: req.user });
+    // Render single EJS template
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
 router.get("/product-category/:category", async function (req, res) {
   try {
     const category = req.params.category; // Get category from URL
@@ -241,7 +254,8 @@ router.get("/cart", isLoggedIn, isUser, async function (req, res) {
     .findOne({ email: req.user.email })
     .populate("cart");
   // console.log(user.cart);
-  const shippingCharge = 50;
+  const pricing = await priceModel.findOne();
+  const shippingCharge = pricing.deliveryCharges;
   const Total = user.cart.reduce(
     (total, item) => total + Number(item.price),
     0

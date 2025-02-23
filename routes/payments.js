@@ -7,6 +7,7 @@ const userModel = require("../models/user-model");
 const productModel = require("../models/product-model");
 const Transaction = require("../models/transaction");
 const Order = require("../models/order-model");
+const priceModel = require("../models/price-model");
 
 const router = express.Router();
 
@@ -19,8 +20,8 @@ router.get("/checkOut", isLoggedIn, isUser, async function (req, res) {
     req.flash("error", "Please add an address before checkout.");
     return res.redirect("/cart"); // Wapas cart par le jao
   }
-
-  const shippingCharge = 50;
+  const pricing = await priceModel.findOne();
+  const shippingCharge = pricing.deliveryCharges;
   const Total = user.cart.reduce(
     (total, item) => total + Number(item.price),
     0
@@ -49,9 +50,11 @@ router.post("/create-order", async (req, res) => {
   if (!amount || amount <= 0) {
     return res.status(400).json({ message: "Invalid amount" });
   }
+  const pricing = await priceModel.findOne();
+  const shippingCharge = pricing.deliveryCharges;
 
   const options = {
-    amount: amount * 100, // Paise me (₹1 = 100 paise)
+    amount: amount * 100 , // Paise me (₹1 = 100 paise)
     currency: "INR",
     receipt: `receipt_${Date.now()}`,
     payment_capture: 1,
