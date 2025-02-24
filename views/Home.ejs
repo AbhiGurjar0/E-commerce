@@ -133,7 +133,7 @@
     </div>
   </div>
 
-  <div class="hidden  md:grid grid-cols-2 md:grid-cols-4 gap-4 p-4 sm:p-5 md:px-20 md:my-10">
+  <div class="hidden bg-[#C4AC8A] md:grid grid-cols-2 md:grid-cols-4 gap-4 p-4 sm:p-5 md:px-20 md:my-10">
     <a href="/product-category/all">
       <div class="relative">
         <img class="w-[20vw] h-[20vw] object-top object-cover" src="../images/braclet1.jpg" alt="Bracelets"
@@ -206,7 +206,7 @@
       <a href="/product/<%=product._id%>">
         <div class=" flex justify-center items-center ">
           <!-- Jewelry Card -->
-          <div class="bg-white shadow-lg rounded-xl overflow-hidden border w-[50vw] md:w-[17vw]">
+          <div class="bg-white shadow-lg rounded-xl overflow-hidden border w-[43vw] md:w-[17vw]">
             <% if (product.images && product.images.length> 0) { %>
               <img src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
                 class="w-full h-40 sm:h-60 rounded-lg object-cover object-center" />

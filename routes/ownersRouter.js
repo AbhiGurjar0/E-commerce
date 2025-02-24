@@ -277,7 +277,8 @@ router.get("/viewOrder/:id", isLoggedIn, isAdmin, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
       .populate("userId")
-      .populate("productId");
+      .populate("productId")
+      .populate("shippingAddress");
     const user = await userModel.findOne({_id:req.user._id});
     if (!order) {
       return res

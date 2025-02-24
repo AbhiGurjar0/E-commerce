@@ -10,7 +10,7 @@ const Order = require("../models/order-model");
 const priceModel = require("../models/price-model");
 const mongoose = require("mongoose");
 const isUser = require("../middlewares/isUser");
-
+const bcrypt = require("bcrypt");
 
 router.get("/search", async (req, res) => {
   try {
@@ -156,6 +156,36 @@ router.post("/edit/:userId", isLoggedIn, isUser, async function (req, res) {
   );
   res.redirect("/profile");
 });
+router.get("/forgot", function (req, res) {
+  let error = req.flash("error");
+  res.render("forgot", { error });
+});
+router.post("/edit", async function (req, res) {
+  try {
+    let { email, password } = req.body;
+    const user = await userModel.findOne({
+      email: { $regex: new RegExp(`^${email}$`, "i") },
+    });
+
+    if (!user) {
+      req.flash("error", "User not found.");
+      return res.redirect("/my-account");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    req.flash("success", "Password updated successfully.");
+    res.redirect("/my-account");
+  } catch (error) {
+    console.error("Error updating password:", error);
+    req.flash("error", "Something went wrong.");
+    res.redirect("/my-account");
+  }
+});
+
 router.post("/addAddress", isLoggedIn, isUser, async function (req, res) {
   try {
     // Find the user by email
@@ -231,7 +261,7 @@ router.get("/product/:productId", async function (req, res) {
     const subtotal = goldCost + makingCost;
     const gstAmount = (subtotal * pricing.gst) / 100;
     const grandTotal = subtotal + gstAmount;
-    // console.log(product.images);
+
     res.render("productDetails", {
       products,
       user: req.user,
@@ -253,7 +283,12 @@ router.get("/cart", isLoggedIn, isUser, async function (req, res) {
   let user = await userModel
     .findOne({ email: req.user.email })
     .populate("cart");
-  // console.log(user.cart);
+
+  if (!user) {
+    req.flash("error", "User not found or unauthorized.");
+    res.redirect(req.get("Referer") || "/");
+  }
+
   const pricing = await priceModel.findOne();
   const shippingCharge = pricing.deliveryCharges;
   const Total = user.cart.reduce(
@@ -284,7 +319,10 @@ router.get(
   async function (req, res) {
     try {
       let user = await userModel.findOne({ email: req.user.email });
-
+      // if (!user) {
+      //   req.flash("error", "User not found or unauthorized.");
+      //   res.redirect(req.get("Referer") || "/");
+      // }
       const productId = req.params.productId;
       // const objectId = new mongoose.Types.ObjectId(productId);
       // const isInCart = user.cart.some(item => item.equals(objectId));
@@ -356,8 +394,8 @@ router.post("/updateAddress", isLoggedIn, async (req, res) => {
   req.flash("success", "Address updated successfully.");
   res.redirect("/profile");
 });
-router.get("/updateAddress",isLoggedIn ,async function(req,res){
-    let user = await userModel.findOne({_id:req.user._id});
-    res.render("updateAddress",{user});
-})
+router.get("/updateAddress", isLoggedIn, async function (req, res) {
+  let user = await userModel.findOne({ _id: req.user._id });
+  res.render("updateAddress", { user });
+});
 module.exports = router;

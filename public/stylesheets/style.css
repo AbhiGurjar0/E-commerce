@@ -69,7 +69,7 @@
   display: inline-block;
   white-space: nowrap;
   animation-name: moveright;
-  animation-duration: 8s;
+  animation-duration: 12s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 
@@ -79,7 +79,7 @@
   display: inline-block;
   white-space: nowrap;
   animation-name: moveleft;
-  animation-duration: 4s;
+  animation-duration: 16s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -88,7 +88,7 @@
   display: inline-block;
   white-space: nowrap;
   animation-name: moveright;
-  animation-duration: 6s;
+  animation-duration: 12s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 

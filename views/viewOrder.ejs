@@ -16,8 +16,8 @@
         <%= order._id %>
       </p>
       <p><strong>Customer:</strong>
-        <%= user.fullname %>
-      </p>
+        <%=order.shippingAddress.fullName%></p>
+      
       <p><strong>Order Date:</strong>
         <%= order.orderDate.toLocaleDateString() %>
       </p>
@@ -32,10 +32,10 @@
       </p>
       <p>
         <strong>Address:</strong>
-          <%= user.addresses[0].fullAddress %>,
-            <%= user.addresses[0].city %>,
-              <%= user.addresses[0].state %>,
-                <%= user.addresses[0].zipCode %>
+          <%= order.shippingAddress.fullAddress %>,
+             <%= order.shippingAddress.city %>,
+              <%= order.shippingAddress.state %>,
+                <%= order.shippingAddress.zipCode %> 
               
 
       </p>

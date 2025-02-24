@@ -125,7 +125,7 @@
                                 <table class="w-full text-sm text-left border border-gray-200">
                                     <thead class="bg-gray-200">
                                         <tr>
-                                            
+
                                             <th class="px-4 py-2">Customer</th>
                                             <th class="px-4 py-2">Date</th>
                                             <th class="px-4 py-2">Amount</th>
@@ -135,9 +135,9 @@
                                     </thead>
                                     <tbody>
                                         <% if(user.length> 0 && orders.length > 0) { %>
-                                            <% orders.forEach(function(order) { %>
+                                            <% orders.slice().reverse().forEach(function(order) { %>
                                                 <tr class="border-b">
-                                              
+
                                                     <td class="md:px-4 px-2 py-2">
                                                         <%= order.userId ? order.userId.fullname : "Unknown User" %>
                                                     </td>
@@ -147,7 +147,7 @@
                                                     <td class="md:px-4 px-2 py-2">
                                                         <%= order.amount %>
                                                     </td>
-                                                    <td class= "md:px-4 px-2 py-2 text-green-500 font-semibold">
+                                                    <td class="md:px-4 px-2 py-2 text-green-500 font-semibold">
                                                         <%= order.status %>
                                                     </td>
                                                     <td class="hidden md:inline-block md:px-4 px-2 py-2">
@@ -200,7 +200,7 @@
                                     </thead>
                                     <tbody>
                                         <% if(user.length>0){%>
-                                            <%user.forEach(function(usr){%>
+                                            <%user.slice().reverse().forEach(function(usr){%>
                                                 <tr class="border-b">
                                                     <td class="hidden md:inline-block  px-4 py-2">
                                                         <%=usr._id%>
@@ -238,20 +238,6 @@
                         <section class="p-6 bg-gray-100 w-[50%] md:block hidden">
                             <h2 class="text-2xl font-bold mb-4">Settings</h2>
                             <div class="bg-white shadow rounded-lg p-4 space-y-4">
-                                <!-- General Settings -->
-                                <div>
-                                    <h3 class="text-lg font-semibold mb-2">General Settings</h3>
-                                    <div class="flex flex-col space-y-2">
-                                        <form class="flex flex-col space-y-2" action="/owners/edit/email" method="post">
-                                            <label class="font-medium">Admin Email:</label>
-                                            <input type="email" placeholder="Enter admin email"
-                                                class="w-full p-2 border rounded">
-                                            <input type="submit"
-                                                class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-                                                value="Change Email">
-                                        </form>
-                                    </div>
-                                </div>
 
                                 <!-- Security Settings -->
                                 <div>
@@ -267,6 +253,7 @@
                                             <input type="submit"
                                                 class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
                                                 value="Update Password">
+
                                         </form>
                                     </div>
                                 </div>
@@ -281,15 +268,21 @@
                                 <!-- views/admin/pricing.ejs -->
                                 <form class="flex  flex-col gap-3" method="POST" action="/owners/update">
                                     <label>GST (%) : <%= pricing ? pricing.gst: "" %>%</label>
-                                    <input class="outline-none border rounded-lg py-2 " type="number" name="gst"
+                                    <input class="outline-none border rounded-lg py-2 " type="number" value="<%= pricing ? pricing.gst: "" %>" name="gst"
                                         step="0.01" required>
 
                                     <label>Making Price (per gram) : <%= pricing ? pricing.makingPrice:""%>₹ /G</label>
-                                    <input class="outline-none border rounded-lg py-2" type="number" name="makingPrice"
+                                    <input class="outline-none border rounded-lg py-2" type="number" value="<%= pricing ? pricing.makingPrice:""%>" name="makingPrice"
                                         step="0.01" required>
 
                                     <label>Gold Price (per gram): <%= pricing ? pricing.goldPrice:""%>₹ /G</label>
                                     <input class="outline-none border rounded-lg py-2" type="number" name="goldPrice"
+                                        step="0.01" value="<%= pricing ? pricing.goldPrice:""%>" required>
+                                    <label>Delevery Charges: Old Value -> <%= pricing ? pricing.deliveryCharges:""%>
+                                            ₹
+                                    </label>
+                                    <input class=" outline-none border rounded-lg py-2" type="number"
+                                        value="<%= pricing ? pricing.deliveryCharges:" "%>" name="deliveryCharges"
                                         step="0.01" required>
 
                                     <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"

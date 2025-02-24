@@ -1,39 +1,101 @@
 <%- include('./partials/header') %>
 
-<% if (error.length > 0) { %>
-    <div class="fixed top-4 left-1/2 transform -translate-x-1/2 p-3 rounded-md bg-red-500 z-50 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
-        <span class="inline-block text-white text-center">
-            <%= error %>
-        </span>
-    </div>
-<% } %>
-
-<div class="bg-gray-100 min-h-[60vh] flex items-center justify-center p-4">
-    <div class="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md sm:max-w-lg">
-        <h2 class="text-2xl font-bold mb-6 text-center">Welcome to <br> Padmawat Jewellers</h2>
-
-        <div class="tabs flex justify-between mb-6">
-            <button id="loginTab" class="w-1/2 py-2 font-semibold text-lg border-b-2 border-blue-500 focus:outline-none">Login</button>
-            <button id="registerTab" class="w-1/2 py-2 font-semibold text-lg text-gray-500 focus:outline-none">Register</button>
+    <% if (error.length> 0) { %>
+        <div
+            class="fixed top-4 left-1/2 transform -translate-x-1/2 p-3 rounded-md bg-red-500 z-50 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+            <span class="inline-block text-white text-center">
+                <%= error %>
+            </span>
         </div>
+        <% } %>
 
-        <!-- Login Form -->
-        <form id="loginForm" class="space-y-4" action="/users/login" method="post">
-            <input type="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="w-full px-4 py-2 border rounded-xl focus:ring focus:ring-blue-300" required name="email">
-            <input type="password" minlength="8" maxlength="15" placeholder="Password" class="w-full px-4 py-2 border rounded-xl focus:ring focus:ring-blue-300" required name="password">
-            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-xl font-semibold hover:bg-blue-600 transition">Login</button>
-        </form>
+            <div class="bg-gray-100 min-h-[60vh] flex items-center justify-center p-4">
+                <div class="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md sm:max-w-lg">
+                    <h2 class="text-2xl font-bold mb-6 text-center">Welcome to <br> Padmawat Jewellers</h2>
 
-        <!-- Register Form -->
-        <form id="registerForm" class="space-y-4 hidden" action="/users/register" method="post">
-            <input type="text" minlength="4" maxlength="10" pattern="[A-Za-z0-9]+" placeholder="Full Name" class="w-full px-4 py-2 border rounded-xl focus:ring focus:ring-green-300" required name="fullname">
-            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email" class="w-full px-4 py-2 border rounded-xl focus:ring focus:ring-green-300" required name="email">
-            <input type="password" minlength="8" maxlength="15" placeholder="Password" class="w-full px-4 py-2 border rounded-xl focus:ring focus:ring-green-300" required name="password">
-            <input type="password" placeholder="Confirm Password" class="w-full px-4 py-2 border rounded-xl focus:ring focus:ring-green-300" required name="confirm_password">
-            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-xl font-semibold hover:bg-green-600 transition">Register</button>
-        </form>
-    </div>
-</div>
+                    <div class="tabs flex justify-between mb-6">
+                        <button id="loginTab"
+                            class="w-1/2 py-2 font-semibold text-lg border-b-2 border-blue-500 focus:outline-none">Login</button>
+                        <button id="registerTab"
+                            class="w-1/2 py-2 font-semibold text-lg text-gray-500 focus:outline-none">Register</button>
+                    </div>
 
-<script src="../javascripts/script.js"></script>
-<%- include('./partials/footer') %>
+                    <!-- Login Form -->
+                    <form id="loginForm" class="relative space-y-4" action="/users/login" method="post">
+                        <input type="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                            class="w-full px-4 py-2 border rounded-xl focus:ring focus:ring-blue-300" required
+                            name="email">
+                        <input id="viewpass" type="password" minlength="8" maxlength="15" placeholder="Password"
+                            class="relative w-full px-4 py-2 border rounded-xl focus:ring focus:ring-blue-300" required
+                            name="password">
+
+                        <span id="eye" class=" hidden md:block w-[3vw] md:w-[1.5vw] md:h-[1.5vw]  absolute md:top-[3.5vw]
+                        top-[13vw]  right-6"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12.0003 3C17.3924 3 21.8784 6.87976 22.8189 12C21.8784 17.1202 17.3924 21 12.0003 21C6.60812 21 2.12215 17.1202 1.18164 12C2.12215 6.87976 6.60812 3 12.0003 3ZM12.0003 19C16.2359 19 19.8603 16.052 20.7777 12C19.8603 7.94803 16.2359 5 12.0003 5C7.7646 5 4.14022 7.94803 3.22278 12C4.14022 16.052 7.7646 19 12.0003 19ZM12.0003 16.5C9.51498 16.5 7.50026 14.4853 7.50026 12C7.50026 9.51472 9.51498 7.5 12.0003 7.5C14.4855 7.5 16.5003 9.51472 16.5003 12C16.5003 14.4853 14.4855 16.5 12.0003 16.5ZM12.0003 14.5C13.381 14.5 14.5003 13.3807 14.5003 12C14.5003 10.6193 13.381 9.5 12.0003 9.5C10.6196 9.5 9.50026 10.6193 9.50026 12C9.50026 13.3807 10.6196 14.5 12.0003 14.5Z">
+                                </path>
+                            </svg></span>
+
+                        <a class="left-[60%] relative md:left-[70%] text-blue-500 hover:text-blue-800 " href="/forgot">Forgot Password</a>
+                        <button type="submit"
+                            class="w-full bg-blue-500 text-white py-2 rounded-xl font-semibold hover:bg-blue-600 transition">Login</button>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="registerForm" class="relative space-y-4 hidden" action="/users/register" method="post">
+                        <input type="text" minlength="4" maxlength="10" pattern="[A-Za-z0-9]+" placeholder="Full Name"
+                            class="w-full px-4 py-2 border rounded-xl focus:ring focus:ring-green-300" required
+                            name="fullname">
+                        <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email"
+                            class="w-full px-4 py-2 border rounded-xl focus:ring focus:ring-green-300" required
+                            name="email">
+                        <input id="viewpass2" type="password" minlength="8" maxlength="15" placeholder="Password"
+                            class="relative w-full px-4 py-2 border rounded-xl focus:ring focus:ring-blue-300" required
+                            name="password">
+
+                        <span id="eye2" class="hidden md:block w-[3vw] md:w-[1.5vw] md:h-[1.5vw] absolute bottom-[7.5vh] right-6"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12.0003 3C17.3924 3 21.8784 6.87976 22.8189 12C21.8784 17.1202 17.3924 21 12.0003 21C6.60812 21 2.12215 17.1202 1.18164 12C2.12215 6.87976 6.60812 3 12.0003 3ZM12.0003 19C16.2359 19 19.8603 16.052 20.7777 12C19.8603 7.94803 16.2359 5 12.0003 5C7.7646 5 4.14022 7.94803 3.22278 12C4.14022 16.052 7.7646 19 12.0003 19ZM12.0003 16.5C9.51498 16.5 7.50026 14.4853 7.50026 12C7.50026 9.51472 9.51498 7.5 12.0003 7.5C14.4855 7.5 16.5003 9.51472 16.5003 12C16.5003 14.4853 14.4855 16.5 12.0003 16.5ZM12.0003 14.5C13.381 14.5 14.5003 13.3807 14.5003 12C14.5003 10.6193 13.381 9.5 12.0003 9.5C10.6196 9.5 9.50026 10.6193 9.50026 12C9.50026 13.3807 10.6196 14.5 12.0003 14.5Z">
+                                </path>
+                            </svg></span>
+                        <button type="submit"
+                            class="w-full bg-green-500 text-white py-2 rounded-xl font-semibold hover:bg-green-600 transition">Register</button>
+                    </form>
+                </div>
+            </div>
+            <script>
+                let pass = document.getElementById("viewpass");
+                let eye = document.getElementById("eye");
+                let flag = 0;
+                eye.addEventListener("click", function () {
+                    if (flag == 0) {
+                        pass.type = "text";
+                        flag = 1;
+                    }
+                    else {
+                        pass.type = "password";
+                        flag = 0;
+                    }
+
+                })
+                let pass2 = document.getElementById("viewpass2");
+                let eye2 = document.getElementById("eye2");
+                let flag2 = 0;
+                eye2.addEventListener("click", function () {
+                    if (flag2 == 0) {
+                        pass2.type = "text";
+                        flag2 = 1;
+                    }
+                    else {
+                        pass2.type = "password";
+                        flag2 = 0;
+                    }
+
+                })
+
+
+            </script>
+            <script src="../javascripts/script.js"></script>
+            <%- include('./partials/footer') %>

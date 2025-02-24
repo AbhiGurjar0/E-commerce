@@ -11,10 +11,10 @@
     <h1 class="text-2xl font-bold mb-4 text-center">User Details</h1>
     <div class="bg-white p-6 rounded-lg shadow-md">
       <p class="text-sm sm:text-base"><strong>ID:</strong> <%= user._id %></p>
-      <p class="text-sm sm:text-base"><strong>Name:</strong> <%= user.name %></p>
+      <p class="text-sm sm:text-base"><strong>Name:</strong> <%= user.fullName %></p>
       <p class="text-sm sm:text-base"><strong>Email:</strong> <%= user.email %></p>
       <p class="text-sm sm:text-base"><strong>Role:</strong> <%= user.role %></p>
-      <p class="text-sm sm:text-base"><strong>Status:</strong> <%= user.status %></p>
+      <p class="text-sm sm:text-base"><strong>Status:</strong> Active</p>
     </div>
     <div class="text-center mt-4">
       <a href="/owners#orders" class="inline-block text-blue-500 hover:text-blue-700">Back to Users</a>
