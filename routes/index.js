@@ -218,7 +218,7 @@ router.post("/addAddress", isLoggedIn, isUser, async function (req, res) {
     await user.save();
 
     // Redirect to the address list page
-    res.redirect("/profile");
+    res.redirect(req.get("Referer") || "/profile");
   } catch (error) {
     console.error("Error adding address:", error);
     res.status(500).send("Error saving address.");
@@ -398,4 +398,7 @@ router.get("/updateAddress", isLoggedIn, async function (req, res) {
   let user = await userModel.findOne({ _id: req.user._id });
   res.render("updateAddress", { user });
 });
+router.get("/contact",function(req,res){
+  res.render("contactUs");
+})
 module.exports = router;

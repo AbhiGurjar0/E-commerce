@@ -130,7 +130,7 @@
                             value="<%=user.fullname%>" name="fullname">
                         <input class="px-5 py-2 border-2 outline-none rounded-lg" placeholder="Phone Number"
                             type="number" value="<%=user.contact%>" name="contact">
-                        <input class="px-5 py-2 md:w-[5vw]  text-center border-2 outline-none rounded-lg" value="Save"
+                        <input class="px-5 bg-blue-500 text-black cursor-pointer py-2 md:w-[5vw]  text-center border-2 outline-none rounded-lg" value="Save"
                             type="submit">
                     </form>
 
@@ -202,8 +202,7 @@
 
                                                                     if(foundProduct && foundProduct.price) {
                                                                     %>
-                                                                    <%= foundProduct.price - foundProduct.discount +
-                                                                        shippingCharge %>
+                                                                    <%= foundProduct.price - foundProduct.discount%>
                                                                         <% } else { %>
                                                                             <span class="text-red-500">Price not
                                                                                 available</span>

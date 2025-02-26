@@ -126,7 +126,7 @@
             <a href="/product/<%= product._id %>">
                 <div class="w-full md:w-[15vw] border rounded-lg overflow-hidden shadow-sm">
                     <% if (product.images && product.images.length > 0) { %>
-                        <img src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
+                        <img src="data:image/jpeg;base64,<%= prod.images[0].toString('base64') %>"
                             class="w-full h-52 object-cover" />
                     <% } else { %>
                         <p>No images available for this product.</p>
@@ -138,7 +138,7 @@
                         <p class="text-sm text-teal-500">SAVE: ₹<%= (prod.price) - (prod.price - prod.discount) %></p>
                     </div>
                     <div class="flex justify-center items-center mt-4">
-                        <a class="w-[60%]" href="/add-to-cart/<%=product._id%>">
+                        <a class="w-[60%]" href="/add-to-cart/<%=prod._id%>">
                           <button class="w-full uppercase text-white text-md bg-black py-2 px-3 mb-2">Add to cart</button>
                         </a>
                       </div>
