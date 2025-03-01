@@ -42,7 +42,14 @@ router.get("/admin-login", function (req, res) {
 router.get("/", isLoggedIn, isAdmin, async function (req, res) {
   try {
     let success = req.flash("success");
-    const orders = await Order.find().populate("userId", "fullname");
+    const orders = await Order.find()
+      .populate({ path: "userId", select: "fullname" }) // ✅ Only fetch fullName from User
+      .populate("productId") // ✅ Fetch product details
+      .lean(); // Convert to plain JS objects
+
+    // Remove orders where the product has been deleted
+    const filteredOrders = orders.filter((order) => order.productId !== null);
+
     // const order = await Order.findById(orderId).populate('userId', 'fullname');
     let products = await productModel.find();
     let user = await userModel.find();
@@ -65,7 +72,7 @@ router.get("/", isLoggedIn, isAdmin, async function (req, res) {
       success,
       users: uniqueUsersCount,
       user: user,
-      orders,
+      orders: filteredOrders,
       admin,
       totalOrders,
       pricing,
@@ -79,23 +86,6 @@ router.get("/", isLoggedIn, isAdmin, async function (req, res) {
     res.status(500).send("Error fetching transactions");
   }
 });
-
-// router.get("/admin/orders", isLoggedIn, isAdmin, async (req, res) => {
-//   const currentDate = new Date();
-//   let users = await userModel.find();
-//   const options = {
-//     weekday: "short", // Sun
-//     month: "short", // Feb
-//     day: "2-digit", // 16
-//     year: "numeric", // 2025
-//     hour: "2-digit", // 21
-//     minute: "2-digit", // 34
-//     hour12: false, // 24-hour format
-//   };
-//   const Time = currentDate.toLocaleString("en-US", options).replace(",", "");
-//   const orders = await Order.find().populate("userId", "email");
-//   res.render("admin", { orders, Time,users });
-// });
 
 router.post("/cancel-order/:orderId", isLoggedIn, isAdmin, async (req, res) => {
   const { orderId } = req.params;
@@ -118,7 +108,7 @@ router.post("/cancel-order/:orderId", isLoggedIn, isAdmin, async (req, res) => {
 });
 
 router.post("/update", isLoggedIn, isAdmin, async (req, res) => {
-  const { gst, makingPrice, goldPrice,deliveryCharges } = req.body;
+  const { gst, makingPrice, goldPrice, deliveryCharges } = req.body;
 
   try {
     const pricing = await Pricing.findOneAndUpdate(
@@ -146,7 +136,6 @@ router.post("/orders/:id/status", isLoggedIn, isAdmin, async (req, res) => {
   try {
     const { status } = req.body;
     await Order.findByIdAndUpdate(req.params.id, { status });
-
     res.redirect("/owners#orders"); // Works because it's a form submission
   } catch (err) {
     res.status(500).send("Internal server error");
@@ -279,19 +268,27 @@ router.get("/viewOrder/:id", isLoggedIn, isAdmin, async (req, res) => {
       .populate("userId")
       .populate("productId")
       .populate("shippingAddress");
-    const user = await userModel.findOne({_id:req.user._id});
+
+    const user = await userModel.findOne({ _id: req.user._id });
     if (!order) {
       return res
         .status(404)
         .json({ success: false, message: "Order not found" });
     }
-    res.render("viewOrder", { order,user }); // Render a view-order.ejs page
+    let product = order.productId;
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+    res.render("viewOrder", { order, user, product });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
 router.put("/cancelOrder/:id", isLoggedIn, isAdmin, async (req, res) => {
   try {
+    confirm("are you sure ?");
     const order = await Order.findByIdAndUpdate(
       req.params.id,
       { status: "Cancelled" },
