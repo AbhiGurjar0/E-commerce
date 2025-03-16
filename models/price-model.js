@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const pricingSchema = new mongoose.Schema({
-  gst: { type: Number, default:0, required: true },
-  makingPrice: { type: Number, default:0, required: true },
-  goldPrice: { type: Number, default:0, required: true },
-  deliveryCharges:{ type: Number, default:0, required: true},
+  gst: { type: Number, default:0},
+  makingPrice: { type: Number, default:0 },
+  goldPrice: { type: Number, default:0 },
+  deliveryCharges:{ type: Number, default:0},
   updatedAt: { type: Date, default: Date.now }
 });
 

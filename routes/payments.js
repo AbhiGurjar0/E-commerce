@@ -21,7 +21,10 @@ router.get("/checkOut", isLoggedIn, isUser, async function (req, res) {
     return res.redirect("/cart"); // Wapas cart par le jao
   }
   const pricing = await priceModel.findOne();
-  const shippingCharge = pricing.deliveryCharges;
+  const shippingCharge = 0;
+  if(pricing){
+    shippingCharge = pricing.deliveryCharges?pricing.deliveryCharges:0;
+     }
   const Total = user.cart.reduce(
     (total, item) => total + Number(item.price),
     0
@@ -51,7 +54,10 @@ router.post("/create-order", async (req, res) => {
     return res.status(400).json({ message: "Invalid amount" });
   }
   const pricing = await priceModel.findOne();
-  const shippingCharge = pricing.deliveryCharges;
+  const shippingCharge = 0;
+  if(pricing){
+    shippingCharge = pricing.deliveryCharges?pricing.deliveryCharges:0;
+     }
 
   const options = {
     amount: amount * 100 , // Paise me (₹1 = 100 paise)

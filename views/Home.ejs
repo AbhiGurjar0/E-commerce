@@ -169,7 +169,7 @@
       Your browser does not support the video tag.
     </video>
   </div>
- 
+
   <a href="/product-category/all">
     <div class="w-full h-[60vh] sm:h-[70vh] md:h-[90vh] mb-16">
       <img class="object-center object-cover w-full h-full" src="../images/Home-3_page-0001.jpg"
@@ -201,42 +201,41 @@
 
   </div>
 
-  <div class="products w-full h-min-[60vh] flex flex-wrap gap-2 my-2 px-4 sm:px-10">
+  <div class="products w-full h-min-[60vh] flex flex-wrap gap-2 my-2 px-2 sm:px-10">
     <% products.forEach(product=> { %>
       <a href="/product/<%=product._id%>">
-        <div class=" flex justify-center items-center ">
-          <!-- Jewelry Card -->
-          <div class="bg-white shadow-lg rounded-xl overflow-hidden border w-[43vw] md:w-[17vw]">
-            <% if (product.images && product.images.length> 0) { %>
-              <img src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
-                class="w-full h-40 sm:h-60 rounded-lg object-cover object-center" />
-              <% } else { %>
-                <p>No images available for this product.</p>
-                <% } %>
-                  <div class="md:p-4 p-2">
-                    <h2 class=" capitalize font-bold text-lg text-nowrap">
-                      <%=product.name%>
-                    </h2>
-                    <p class="py-[1px] px-2 text-sm capitalize bg-zinc-100 rounded-xl inline-block">
-                      <%=product.category%>
-                    </p>
-                    <p class="text-sm text-gray-500">By Padmavati Jewels</p>
-                    <div class="flex justify-between flex-wrap items-center  mt-3">
-                      <span class="text-purple-600 font-semibold text-md">₹<%=Number(Number(product.price) -
-                          Number(product.discount))%></span>
-                      <span class="text-purple-200 text-md line-through">₹<%=product.price%></span>
-                      <span class="text-[#F7D000] text-sm">
-                        <%=product.gold%>G
-                      </span>
-                      <span class="text-green-500 text-sm  ">SAVE:₹<%=product.discount%></span>
-                    </div>
-                    <div class="flex justify-center items-center mt-4">
-                      <a class="w-full" href="/add-to-cart/<%=product._id%>">
-                        <button class="w-full uppercase text-white text-xl bg-black py-2 px-3">Add to cart</button>
-                      </a>
-                    </div>
+
+        <div
+          class="bg-white shadow-lg rounded-xl overflow-hidden w-[44vw] sm:w-[30vw] md:w-[17vw] box-border md:h-[58vh]">
+          <% if (product.images && product.images.length> 0) { %>
+            <img src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
+              class="w-full h-40 sm:h-60 rounded-lg object-cover object-center" />
+            <% } else { %>
+              <p>No images available for this product.</p>
+              <% } %>
+                <div class="md:p-4 p-2">
+                  <h2 class=" capitalize font-bold text-lg text-nowrap">
+                    <%=product.name%>
+                  </h2>
+                  <p class="py-[1px] px-2 text-sm capitalize bg-zinc-100 rounded-xl inline-block">
+                    <%=product.category%>
+                  </p>
+                  <p class="text-sm text-gray-500">By Padmavati Jewels</p>
+                  <div class="flex justify-between flex-wrap items-center  mt-3">
+                    <span class="text-purple-600 font-semibold text-md">₹<%=Number(Number(product.price) -
+                        Number(product.discount))%></span>
+                    <span class="text-purple-200 text-md line-through">₹<%=product.price%></span>
+                    <span class="text-[#F7D000] text-sm">
+                      <%=product.gold%>G
+                    </span>
+                    <span class="text-green-500 text-sm  ">SAVE:₹<%=product.discount?product.discount:0%></span>
                   </div>
-          </div>
+                  <div class="flex justify-center items-center mt-4">
+                    <a class="w-full" href="/add-to-cart/<%=product._id%>">
+                      <button class="w-full uppercase text-white text-sm md:text-xl bg-black py-2 px-3 ">Add to cart</button>
+                    </a>
+                  </div>
+                </div>
         </div>
       </a>
       <% }); %>
@@ -286,8 +285,8 @@
     });
     //remove controls
     document.querySelectorAll("video").forEach((video) => {
-    video.removeAttribute("controls");
-});
+      video.removeAttribute("controls");
+    });
   </script>
 
   <%- include('./partials/footer') %>

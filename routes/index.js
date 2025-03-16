@@ -123,7 +123,11 @@ router.get("/profile", isLoggedIn, isUser, async function (req, res) {
       return res.redirect("/my-account");
     }
     const pricing = await priceModel.findOne();
-    const shippingCharge = pricing.deliveryCharges;
+    const shippingCharge  = 0;
+    if(pricing){
+       shippingCharge = pricing.deliveryCharges?pricing.deliveryCharges:0;
+    }
+   
     let orders = await Order.find({ userId: user._id });
     let products = await productModel.find();
 
@@ -256,10 +260,10 @@ router.get("/product/:productId", async function (req, res) {
       return req.flash("Pricing or product not found");
     }
 
-    const goldCost = pricing.goldPrice * product.gold;
-    const makingCost = pricing.makingPrice * product.gold;
+    const goldCost = (pricing?pricing.goldPrice:0) * product.gold;
+    const makingCost = (pricing?pricing.makingPrice:0) * product.gold;
     const subtotal = goldCost + makingCost;
-    const gstAmount = (subtotal * pricing.gst) / 100;
+    const gstAmount = (subtotal * (pricing?pricing.gst:0)) / 100;
     const grandTotal = subtotal + gstAmount;
 
     res.render("productDetails", {
@@ -290,7 +294,10 @@ router.get("/cart", isLoggedIn, isUser, async function (req, res) {
   }
 
   const pricing = await priceModel.findOne();
-  const shippingCharge = pricing.deliveryCharges;
+  const shippingCharge = 0;
+  if(pricing){
+ shippingCharge = pricing.deliveryCharges?pricing.deliveryCharges:0;
+  }
   const Total = user.cart.reduce(
     (total, item) => total + Number(item.price),
     0

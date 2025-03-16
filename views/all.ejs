@@ -69,7 +69,7 @@
                         <span class="hidden md:inline-block text-[#F7D000] text-sm">
                           <%=product.gold%>G
                         </span>
-                        <span class="text-green-500 text-sm  ">SAVE:₹<%=product.discount%></span>
+                        <span class="text-green-500 text-sm  ">SAVE:₹<%=product.discount?product.discount:0%></span>
                       </div>
                       <div class="flex justify-center items-center mt-4">
                         <a class="w-full" href="/add-to-cart/<%=product._id%>">
