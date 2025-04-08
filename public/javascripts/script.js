@@ -38,14 +38,18 @@ loginTab.addEventListener("click", () => {
   loginForm.classList.remove("hidden");
   registerForm.classList.add("hidden");
   loginTab.classList.add("border-blue-500", "text-black");
-  registerTab.classList.remove("border-blue-500", "text-black");
+  loginTab.classList.add("border-b-2");
+  registerTab.classList.remove("border-green-500", "text-black");
+  registerTab.classList.remove("border-b-2", "text-black");
 });
 
 registerTab.addEventListener("click", () => {
   registerForm.classList.remove("hidden");
   loginForm.classList.add("hidden");
-  registerTab.classList.add("border-blue-500", "text-black");
+  registerTab.classList.add("border-green-500", "text-black");
+  registerTab.classList.add("border-b-2");
   loginTab.classList.remove("border-blue-500", "text-black");
+  loginTab.classList.remove("border-b-2");
 });
 
 //cart

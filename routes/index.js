@@ -103,7 +103,6 @@ router.get("/products", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
 router.get("/", async function (req, res) {
   const categories = await productModel.distinct("category");
   let products = await productModel.find();
@@ -146,7 +145,6 @@ router.get("/profile", isLoggedIn, isUser, async function (req, res) {
     res.redirect("/my-account");
   }
 });
-
 router.get("/addAddress", isLoggedIn, isUser, async function (req, res) {
   // let user = await userModel.findOne({ email: req.user.email });
   res.render("address");
@@ -189,7 +187,6 @@ router.post("/edit", async function (req, res) {
     res.redirect("/my-account");
   }
 });
-
 router.post("/addAddress", isLoggedIn, isUser, async function (req, res) {
   try {
     // Find the user by email
@@ -282,7 +279,6 @@ router.get("/product/:productId", async function (req, res) {
     res.status(500).send("Server Error");
   }
 });
-
 router.get("/cart", isLoggedIn, isUser, async function (req, res) {
   let user = await userModel
     .findOne({ email: req.user.email })
@@ -318,7 +314,6 @@ router.get("/cart", isLoggedIn, isUser, async function (req, res) {
     error,
   });
 });
-
 router.get(
   "/add-to-cart/:productId",
   isLoggedIn,
@@ -363,12 +358,10 @@ router.get("/remove/:productId", isLoggedIn, isUser, async function (req, res) {
     res.redirect(req.get("Referer") || "/");
   }
 });
-
 router.get("/my-account", function (req, res) {
   let error = req.flash("error");
   res.render("login", { error });
 });
-// Edit address route
 router.post("/updateAddress", isLoggedIn, async (req, res) => {
   const {
     fullName,

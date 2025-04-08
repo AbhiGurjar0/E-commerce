@@ -7,5 +7,5 @@ const pricingSchema = new mongoose.Schema({
   deliveryCharges:{ type: Number, default:0},
   updatedAt: { type: Date, default: Date.now }
 });
-
+ 
 module.exports = mongoose.model("Pricing", pricingSchema);

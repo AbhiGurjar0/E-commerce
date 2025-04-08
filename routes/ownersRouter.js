@@ -310,7 +310,7 @@ router.put("/cancelOrder/:id", isLoggedIn, isAdmin, async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
-router.post("/edit/", isLoggedIn, isAdmin, async function (req, res) {
+router.post("/edit", isLoggedIn, isAdmin, async function (req, res) {
   let { old, password } = req.body;
   const admin = await ownerModel.findOne();
 
