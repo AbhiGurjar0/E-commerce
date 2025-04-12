@@ -1,66 +1,13 @@
 <%- include('./partials/header') %>
 
   <div
-    class="flex flex-col justify-center items-center gap-10 w-screen min-h-[50vh] md:min-h-screen overflow-hidden relative px-4 sm:px-10 py-10">
-    <!-- Slider 1 -->
+    class="flex flex-col justify-center items-center gap-10 w-screen min-h-[50vh] md:min-h-[80vh] overflow-hidden relative px-4 sm:px-10 py-10">
 
-    <!-- <div class="flex gap-10 animate-scroll"> -->
-    <!-- Duplicate images for seamless effect -->
-    <div class=" hidden md:block page-1">
-      <div class="moving-text moving-text1">
-        <div class="con">
-          <img src="../images/braclet1.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 1">
-          <img src="../images/braclet2.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 2">
-          <img src="../images/braclet3.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 3">
-          <img src="../images/braclet4.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 4">
-          <img src="../images/braclet1.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 5">
-        </div>
-        <div class="con">
-          <img src="../images/braclet1.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 1">
-          <img src="../images/braclet2.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 2">
-          <img src="../images/braclet3.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 3">
-          <img src="../images/braclet4.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 4">
-          <img src="../images/braclet1.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 5">
-        </div>
-      </div>
-      <div class="moving-text moving-text2">
-        <div class="con ">
-          <img src="../images/earring1.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 1">
-          <img src="../images/earring2.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 2">
-          <img src="../images/earring3.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 3">
-          <img src="../images/earring4.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 4">
-          <img src="../images/earring5.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 5">
-        </div>
-        <div class="con">
-          <img src="../images/earring1.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 1">
-          <img src="../images/earring2.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 2">
-          <img src="../images/earring3.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 3">
-          <img src="../images/earring4.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 4">
-          <img src="../images/earring5.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 5">
-        </div>
-      </div>
-      <div class="moving-text moving-text3">
-        <div class="con ">
-          <img src="../images/ring1.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 1">
-          <img src="../images/ring2.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 2">
-          <img src="../images/ring3.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 3">
-          <img src="../images/ring4.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 4">
-          <img src="../images/ring5.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 5">
-
-        </div>
-        <div class="con">
-          <img src="../images/ring1.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 1">
-          <img src="../images/ring2.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 2">
-          <img src="../images/ring3.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 3">
-          <img src="../images/ring4.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 4">
-          <img src="../images/ring5.jpg" class="w-[20vw] h-[30vh] object-cover" alt="Image 5">
-        </div>
-      </div>
-
-    </div>
-    <div class="md:hidden w-full h-[70vh">
-      <img class="w-full object-center object-cover" src="../images/Home-1_page-0001.jpg" alt="">
-    </div>
+    <img class="w-full h-full object-cover object-center" src="../images/home.jpg" alt="home">
+  </div>
+  <div class="md:hidden w-full h-[70vh">
+    <img class="w-full object-center object-cover" src="../images/Home-1_page-0001.jpg" alt="">
+  </div>
   </div>
 
 
@@ -232,7 +179,8 @@
                   </div>
                   <div class="flex justify-center items-center mt-4">
                     <a class="w-full" href="/add-to-cart/<%=product._id%>">
-                      <button class="w-full uppercase text-white text-sm md:text-xl bg-black py-2 px-3 ">Add to cart</button>
+                      <button class="w-full uppercase text-white text-sm md:text-xl bg-black py-2 px-3 ">Add to
+                        cart</button>
                     </a>
                   </div>
                 </div>

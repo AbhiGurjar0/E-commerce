@@ -28,7 +28,6 @@ module.exports = async function (req, res, next) {
 
     req.user = user;
     req.user.role = decoded.role;
-
     next();
   } catch (err) {
     console.error("JWT Error:", err.message);

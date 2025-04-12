@@ -11,7 +11,7 @@ const priceModel = require("../models/price-model");
 const mongoose = require("mongoose");
 const isUser = require("../middlewares/isUser");
 const bcrypt = require("bcrypt");
-
+//search 
 router.get("/search", async (req, res) => {
   try {
     const query = req.query.q || "";
@@ -24,60 +24,7 @@ router.get("/search", async (req, res) => {
     res.render("search", { products: [], query: req.query.q });
   }
 });
-// router.post("/createOrder/:userId", isLoggedIn, isUser, async(req, res) => {
-//     try {
-//         const amount = Number(req.body.amount);
-//         const paymentMethod = req.body.paymentMethod;
-//         const orderId = req.body.orderId;
-
-//         if (isNaN(amount) || amount < 0) {
-//             return res.status(400).json({ message: "Invalid amount value" });
-//         }
-
-//         let user = await userModel.findOne({ email: req.user.email }).populate("cart"); // ✅ Populate cart
-
-//         if (!user.cart.length) {
-//             return res.status(400).send("Cart is empty.");
-//         }
-
-//         // Transaction create karein
-//         const newTransaction = {
-//             amount: amount,
-//             status: "Completed",
-//             paymentMethod: paymentMethod,
-//             orderId: orderId,
-//             createdAt: new Date(),
-//         };
-
-//         user.transactions.push(newTransaction);
-
-//         // Add cart items to user orders
-//         user.orders.push(...user.cart);
-
-//         // Create an order for each cart item
-//         for (let item of user.cart) {
-//             const order = new Order({
-//                 userId: req.params.userId,
-//                 amount: item.price, // Use item's price
-//                 paymentMethod: req.body.paymentMethod,
-//                 trackingUpdates: [{ status: "Order Placed" }],
-//                 productId: item._id, // ✅ Assign productId properly
-//             });
-
-//             await order.save();
-//         }
-
-//         // Clear cart after adding orders
-//         user.cart = [];
-//         await user.save();
-
-//         res.redirect("/cart");
-//     } catch (error) {
-//         console.error("Transaction error:", error.message);
-//         res.status(500).json({ message: "Error adding transaction" });
-//     }
-// });
-// filter price
+//filter price
 router.get("/products", async (req, res) => {
   try {
     let filter = {}; // Empty filter object
@@ -116,20 +63,21 @@ router.get("/profile", isLoggedIn, isUser, async function (req, res) {
       path: "orders",
       populate: { path: "productId" },
     });
-
+   
     if (!user) {
       req.flash("error", "User not found. Please login again.");
       return res.redirect("/my-account");
     }
-    const pricing = await priceModel.findOne();
-    const shippingCharge  = 0;
+    let pricing = await priceModel.findOne();
+    let shippingCharge  = 0;
+   
     if(pricing){
        shippingCharge = pricing.deliveryCharges?pricing.deliveryCharges:0;
     }
-   
+
     let orders = await Order.find({ userId: user._id });
     let products = await productModel.find();
-
+   
     res.render("dashboard", {
       user,
       addresses: user.addresses,
@@ -165,7 +113,7 @@ router.get("/forgot", function (req, res) {
 router.post("/edit", async function (req, res) {
   try {
     let { email, password } = req.body;
-    const user = await userModel.findOne({
+    let user = await userModel.findOne({
       email: { $regex: new RegExp(`^${email}$`, "i") },
     });
 
@@ -290,7 +238,7 @@ router.get("/cart", isLoggedIn, isUser, async function (req, res) {
   }
 
   const pricing = await priceModel.findOne();
-  const shippingCharge = 0;
+  let shippingCharge = 0;
   if(pricing){
  shippingCharge = pricing.deliveryCharges?pricing.deliveryCharges:0;
   }
@@ -338,9 +286,15 @@ router.get(
     }
   }
 );
+//order details
+router.get("/order/orderDetails/:productId",isLoggedIn ,async function(req,res){
+  
+    let order = await  Order.findOne({productId:req.params.productId}).populate("productId");
+    res.render("orderDetails",{order});
+})
 router.get("/remove/:productId", isLoggedIn, isUser, async function (req, res) {
   try {
-    const user = await userModel.findOne({ _id: req.user._id });
+    let user = await userModel.findOne({ _id: req.user._id });
     const productId = req.params.productId;
     const objectId = new mongoose.Types.ObjectId(productId);
 
@@ -362,7 +316,7 @@ router.get("/my-account", function (req, res) {
   let error = req.flash("error");
   res.render("login", { error });
 });
-router.post("/updateAddress", isLoggedIn, async (req, res) => {
+router.post("/updateAddress", isLoggedIn, async (req, res) => { 
   const {
     fullName,
     phoneNumber,
