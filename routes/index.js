@@ -262,6 +262,7 @@ router.get("/cart", isLoggedIn, isUser, async function (req, res) {
     error,
   });
 });
+//add to cart
 router.get(
   "/add-to-cart/:productId",
   isLoggedIn,
@@ -278,7 +279,7 @@ router.get(
       // const isInCart = user.cart.some(item => item.equals(objectId));
       user.cart.push(req.params.productId);
       await user.save();
-      req.flash("successs", "Added to cart");
+      req.flash("success", "Added to cart");
       res.redirect(req.get("Referer") || "/");
     } catch (error) {
       console.error(error);

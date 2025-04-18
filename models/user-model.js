@@ -40,7 +40,7 @@ const userSchema = mongoose.Schema(
         ref: "product",
       },
     ],
-    orders: [
+    orders: [  
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "order", // Reference to the Order model

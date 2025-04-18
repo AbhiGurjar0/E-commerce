@@ -29,6 +29,12 @@ app.use(
     secret: process.env.Express_SESSION_SECRET,
   })
 );
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
+
 app.set("view engine", "ejs");
 app.use("/owners", ownersRouter);
 app.use("/users", usersRouter);

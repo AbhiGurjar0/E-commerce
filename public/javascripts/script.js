@@ -78,3 +78,4 @@ document.querySelectorAll('input[name="price"]').forEach((checkbox) => {
     document.getElementById("filterForm").submit();
   });
 });
+
