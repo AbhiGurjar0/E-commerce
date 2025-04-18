@@ -9,7 +9,7 @@ This is a full-stack E-commerce web application built using the **MERN stack (Mo
 - 🛒 Add to cart & manage items
 - 📦 Place orders
 - 🔐 JWT-based authentication
-- 🧾 Admin panel for managing products (optional)
+- 🧾 Admin panel for managing products
 - 💬 Clean and responsive UI
 
 ## 🧑‍💻 Tech Stack
