@@ -167,7 +167,7 @@ router.post("/addAddress", isLoggedIn, isUser, async function (req, res) {
     await user.save();
 
     // Redirect to the address list page
-    res.redirect(req.get("Referer") || "/profile");
+    res.redirect("/profile");
   } catch (error) {
     console.error("Error adding address:", error);
     res.status(500).send("Error saving address.");

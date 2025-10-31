@@ -38,48 +38,46 @@
       </form>
     </div>
 
-    <div class="products w-[100%] min-h-[40vh] md:w-[72%] md:h-min-[60vh] flex flex-wrap gap-2 my-2 ">
+    <div class="products w-full max-h-[40vh] flex flex-wrap justify-center gap-6 my-10 px-4 sm:px-12 animate-fadeIn">
       <% if(products.length>0){%>
+
         <% products.forEach(product=> { %>
-          <a href="/product/<%=product._id%>">
-            <!-- <div class=" flex justify-center items-center "> -->
-              <!-- Jewelry Card -->
-              <div
-                class="bg-white shadow-lg rounded-xl overflow-hidden border w-[45vw] sm:w-[30vw] md:w-[17vw] box-border md:h-[54vh]">
-                <% if (product.images && product.images.length> 0) { %>
-                  <img src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
-                    class="w-full h-40 sm:h-60 rounded-lg object-cover object-center" />
-                  <% } else { %>
-                    <p>No images available for this product.</p>
-                    <% } %>
-                      <div class="md:p-4 p-2">
-                        <h2 class=" capitalize font-bold text-lg text-nowrap">
-                          <%=product.name%>
-                        </h2>
-                        <p class="py-[1px] px-2 text-sm capitalize bg-zinc-100 rounded-xl inline-block">
-                          <%=product.category%>
-                        </p>
-                        <p class="text-sm text-gray-500">By Padmavati Jewels</p>
-                        <div class="flex justify-around  flex-wrap items-center mt-3  gap-2">
-                          <span class="text-purple-600 font-semibold text-md">₹<%=Number(Number(product.price) -
-                              Number(product.discount))%></span>
-                          <span class="text-purple-200 text-md line-through">₹<%=product.price%></span>
-                          <span class="hidden md:inline-block text-[#F7D000] text-sm">
-                            <%=product.gold%>G
-                          </span>
-                          <span class="text-green-500 text-sm  ">SAVE:₹<%=product.discount?product.discount:0%></span>
-                        </div>
-                        <div class="flex justify-center items-center mt-4">
-                          <a class="w-full" href="/add-to-cart/<%=product._id%>">
-                            <button class="w-full uppercase text-white text-sm md:text-xl  bg-black py-2 px-3">Add to
-                              cart</button>
-                          </a>
-                        </div>
+          <a href="/product/<%=product._id%>" class="group">
+            <div
+              class="bg-white shadow-xl rounded-2xl overflow-hidden w-[45vw] sm:w-[28vw] md:w-[17vw] hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+              <% if (product.images && product.images.length> 0) { %>
+                <img src="data:image/jpeg;base64,<%= product.images[0].toString('base64') %>"
+                  class="w-full h-48 sm:h-60 object-cover group-hover:scale-105 transition-transform duration-500" />
+                <% } else { %>
+                  <p>No images available for this product.</p>
+                  <% } %>
+                    <div class="p-3 sm:p-4">
+                      <h2 class="capitalize font-semibold text-lg truncate">
+                        <%=product.name%>
+                      </h2>
+                      <p class="py-1 px-2 text-xs bg-gray-100 rounded-lg inline-block capitalize">
+                        <%=product.category%>
+                      </p>
+                      <p class="text-gray-400 text-sm mt-1">By Padmavati Jewels</p>
+
+                      <div class="flex justify-between items-center mt-3 text-sm sm:text-base">
+                        <span
+                          class="text-yellow-600 font-semibold">₹<%=Number(Number(product.price)-Number(product.discount))%></span>
+                        <span class="line-through text-gray-400">₹<%=product.price%></span>
+                        <span class="text-green-600">SAVE ₹<%=product.discount?product.discount:0%></span>
                       </div>
-              </div>
-            <!-- </div> -->
+
+                      <a class="w-full block mt-3" href="/add-to-cart/<%=product._id%>">
+                        <button
+                          class="w-full uppercase text-white bg-black py-2 rounded-md hover:bg-yellow-600 transition duration-300">
+                          Add to Cart
+                        </button>
+                      </a>
+                    </div>
+            </div>
           </a>
           <% }); %>
+
             <%}else{%>
               <h1>There is no product in this price range 😥..</h1>
               <%}%>
